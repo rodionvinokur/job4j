@@ -1,4 +1,4 @@
-package ru.job4j.calculator;
+package ru.job4j.condition;
 
 /**
  * Test for Point.
@@ -8,6 +8,7 @@ package ru.job4j.calculator;
  * @since 0.1
  */
 import org.junit.Test;
+import ru.job4j.condition.Point;
 
 import static org.hamcrest.number.IsCloseTo.closeTo;
 import static org.junit.Assert.assertThat;

@@ -1,7 +1,10 @@
-package ru.job4j.calculator;
+package ru.job4j.condition;
 
 /**
- * Created by slevi on 22.08.2018.
+ * Point
+ * @author Rodion V.
+ * @version 1.0
+ * @since 1.0
  */
 public class Point {
     /**
