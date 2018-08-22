@@ -40,4 +40,34 @@ public class MaxTest {
         int result = maxim.max(2, 1);
         assertThat(result, is(2));
     }
+
+    /**
+     * whenFirstGreaterThenFirst.
+     */
+    @Test
+    public void whenFirstGreaterThenFirst() {
+        Max maxim = new Max();
+        int result = maxim.max(2, 1, 0);
+        assertThat(result, is(2));
+    }
+
+    /**
+     * whenSecondGreaterThenSecond.
+     */
+    @Test
+    public void whenSecondGreaterThenSecond() {
+        Max maxim = new Max();
+        int result = maxim.max(2, 3, 0);
+        assertThat(result, is(3));
+    }
+
+    /**
+     * whenThreeGreaterThenThree.
+     */
+    @Test
+    public void whenThreeGreaterThenThree() {
+        Max maxim = new Max();
+        int result = maxim.max(2, 3, 4);
+        assertThat(result, is(4));
+    }
 }

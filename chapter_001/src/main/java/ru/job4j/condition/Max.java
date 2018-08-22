@@ -10,7 +10,7 @@ package ru.job4j.condition;
 public class Max {
 
     /**
-     * Method max
+     * Method maximum from two numbers.
      *
      * @param a
      * @param b
@@ -19,4 +19,17 @@ public class Max {
     public int max(int a, int b) {
         return a >= b ? a : b;
     }
+
+    /**
+     * Method maximum from three numbers.
+     *
+     * @param a
+     * @param b
+     * @param c
+     * @return maximum.
+     */
+    public int max(int a, int b, int c) {
+        return (max(max(a, b), c));
+    }
+
 }
