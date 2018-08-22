@@ -1,5 +1,5 @@
 /**
-* Package for CalculatorTest & FitTest task
+* Package for CalculatorTest & FitTest & PointTest task
 *
 * @author Rodion V.
 * @version $Id$
