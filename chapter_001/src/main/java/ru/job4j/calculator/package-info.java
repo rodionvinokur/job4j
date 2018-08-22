@@ -1,5 +1,5 @@
 /**
-* Package for Calculator task
+* Package for Calculator & Fit task
 *
 * @author Rodion V.
 * @version 1.0
