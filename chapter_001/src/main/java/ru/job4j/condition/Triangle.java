@@ -2,6 +2,7 @@ package ru.job4j.condition;
 
 /**
  * Triangle
+ *
  * @author Rodion V.
  * @version 1.0
  * @since 1.0
@@ -46,22 +47,12 @@ public class Triangle {
      */
     public boolean isTriangle() {
 
-        if (a.getX() == b.getX() && b.getX() == c.getX()
-                || a.getY() == b.getY() && b.getY() == c.getY()) {
-            return false;
-        }
+        return (a.distanceTo(b) + a.distanceTo(c)) > b.distanceTo(c)
+                && (a.distanceTo(b) + b.distanceTo(c)) > a.distanceTo(c)
+                && (a.distanceTo(c) + b.distanceTo(c)) > a.distanceTo(b);
 
-        if (a.getX() != b.getX() && a.getX() != c.getX() && c.getX() != b.getX()
-                && a.getY() != b.getY() && a.getY() != c.getY() && c.getY() != b.getY()) {
 
-            double sub1 = (a.getX() - b.getX()) / (a.getY() - b.getY());
-            double sub2 = (b.getX() - c.getX()) / (b.getY() - c.getY());
-            double sub3 = (a.getX() - c.getX()) / (a.getY() - c.getY());
 
-            if (sub1 == sub2 && sub1 == sub3 && sub2 == sub3) {
-                return false;
-            }
-        }
-        return true;
+
     }
 }
