@@ -20,16 +20,7 @@ public class FactorialTest {
         assertThat(result, is(1L));
     }
 
-    /**
-     * whenMinusThenZerro.
-     */
-    @Test
-    public void whenMinusThenZerro() {
-        Factorial cnt = new Factorial();
-        long result = cnt.calc(-1);
-        assertThat(result, is(0L));
-    }
-    /**
+     /**
      * whenFiveThen120.
      */
     @Test
