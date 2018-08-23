@@ -16,15 +16,11 @@ public class Counter {
      * @return amount
      */
     public int add(int start, int finish) {
-
         int amount = 0;
-
         start = (start % 2) == 0 ? start : start + 1;
-
         for (; start <= finish; start += 2) {
             amount += start;
         }
-
         return amount;
     }
 }
