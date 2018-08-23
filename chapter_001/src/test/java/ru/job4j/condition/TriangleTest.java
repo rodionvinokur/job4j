@@ -17,48 +17,27 @@ public class TriangleTest {
      * Test when points on one line.
      */
     @Test
-    public void whenPointsOnOneLineThenFalse() {
+    public void whenTwoSideLesserThanOneThenFalse() {
 
         Point a = new Point(0, 1);
         Point b = new Point(0, 2);
         Point c = new Point(0, 3);
 
         Triangle t = new Triangle(a, b, c);
-        assertFalse(t.isTriangle());
-
-        a = new Point(1, 1);
-        b = new Point(2, 1);
-        c = new Point(3, 1);
-
-        t = new Triangle(a, b, c);
-        assertFalse(t.isTriangle());
-
-        a = new Point(0, 0);
-        b = new Point(0, 0);
-        c = new Point(0, 0);
-
-        t = new Triangle(a, b, c);
-        assertFalse(t.isTriangle());
-
-        a = new Point(0, 0);
-        b = new Point(1, 1);
-        c = new Point(2, 2);
-
-        t = new Triangle(a, b, c);
-        assertFalse(t.isTriangle());
+        assertFalse(t.isTriangle(1.0, 2.0, 4.0));
     }
 
     /**
      * Test when on different lines.
      */
     @Test
-    public void whenPointsOnDifferentLineThenTrue() {
+    public void whenTwoSideGreaterThanOneThenTrue() {
         Point a = new Point(0, 1);
         Point b = new Point(2, 2);
         Point c = new Point(0, 3);
 
         Triangle t = new Triangle(a, b, c);
-        assertTrue(t.isTriangle());
+        assertTrue(t.isTriangle(2, 1, 2.4));
     }
 
     /**

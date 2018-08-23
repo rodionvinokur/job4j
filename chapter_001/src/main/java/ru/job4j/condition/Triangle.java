@@ -31,13 +31,15 @@ public class Triangle {
      * @return Area as double or -1.
      */
     public double area() {
-        if (!isTriangle()) {
+        double ab = a.distanceTo(b);
+        double ac = a.distanceTo(c);
+        double bc = b.distanceTo(c);
+
+        if (!isTriangle(ab, ac, bc)) {
             return -1;
         }
-
-        double pHalf = (a.distanceTo(b) + a.distanceTo(c) + b.distanceTo(c)) / 2;
-
-        return Math.sqrt(pHalf * (pHalf - a.distanceTo(b)) * (pHalf - b.distanceTo(c)) * (pHalf - a.distanceTo(c)));
+        double pHalf = (ab + ac + bc) / 2;
+        return Math.sqrt(pHalf * (pHalf - ab) * (pHalf - bc) * (pHalf - ac));
     }
 
     /**
@@ -45,14 +47,7 @@ public class Triangle {
      *
      * @return true - if Triangle.
      */
-    public boolean isTriangle() {
-
-        return (a.distanceTo(b) + a.distanceTo(c)) > b.distanceTo(c)
-                && (a.distanceTo(b) + b.distanceTo(c)) > a.distanceTo(c)
-                && (a.distanceTo(c) + b.distanceTo(c)) > a.distanceTo(b);
-
-
-
-
+    public boolean isTriangle(double ab, double ac, double bc) {
+        return (ab + ac) > bc && (ab + bc) > ac && (ac + bc) > ab;
     }
 }
