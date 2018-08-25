@@ -33,5 +33,8 @@ public class ArrayCharTest {
 
         result = word.startWith("Hello!");
         assertThat(result, is(false));
+
+        result = word.startWith("lll");
+        assertThat(result, is(false));
     }
 }
