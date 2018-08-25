@@ -15,7 +15,8 @@ public class Turn {
      * @return array
      */
     public int[] turn(int[] array) {
-        for (int index = 0; index < array.length - index; index++) {
+        int count = array.length / 2;
+        for (int index = 0; index < count; index++) {
             int tmp = array[index];
             array[index] = array[array.length - index - 1];
             array[array.length - index - 1] = tmp;
