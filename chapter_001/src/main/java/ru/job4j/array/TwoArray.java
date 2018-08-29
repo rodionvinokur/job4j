@@ -10,30 +10,30 @@ class TwoArray {
     /**
      * Method concat for two sort arrays.
      *
-     * @param a
-     * @param b
-     * @return
+     * @param first[]
+     * @param second[]
+     * @return common[]
      */
-    public int[] concat(int[] a, int[] b) {
-        int[] c = new int[a.length + b.length];
-        int i = 0;
-        int j = 0;
-        int k = 0;
-        while (c.length - i - j > 0) {
-            if ((j < b.length && i < a.length && a[i] > b[b.length - 1]) || (i == a.length)) {
-                c[k++] = b[j++];
+    public int[] concat(int[] first, int[] second) {
+        int[] common = new int[first.length + second.length];
+        int indexFirst = 0;
+        int indexSecond = 0;
+        int indexCommon = 0;
+        while (common.length - indexFirst - indexSecond > 0) {
+            if ((indexSecond < second.length && indexFirst < first.length && first[indexFirst] > second[second.length - 1]) || (indexFirst == first.length)) {
+                common[indexCommon++] = second[indexSecond++];
             } else {
-                if ((i < a.length && j < b.length && b[j] > a[a.length - 1]) || (j == b.length)) {
-                    c[k++] = a[i++];
+                if ((indexFirst < first.length && indexSecond < second.length && second[indexSecond] > first[first.length - 1]) || (indexSecond == second.length)) {
+                    common[indexCommon++] = first[indexFirst++];
                 } else {
-                    if (a[i] > b[j]) {
-                        c[k++] = b[j++];
+                    if (first[indexFirst] > second[indexSecond]) {
+                        common[indexCommon++] = second[indexSecond++];
                     } else {
-                        c[k++] = a[i++];
+                        common[indexCommon++] = first[indexFirst++];
                     }
                 }
             }
         }
-        return c;
+        return common;
     }
 }
