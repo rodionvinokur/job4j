@@ -1,5 +1,10 @@
 package ru.job4j.tictactoe;
 
+
+import org.junit.Test;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
+
 /**
  * Test for TicTacToe
  *
@@ -7,10 +12,6 @@ package ru.job4j.tictactoe;
  * @version 1.0
  * @since 1.0
  */
-import org.junit.Test;
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
-
 public class Logic3TTest {
     /**
      * Test for Method Winner X
