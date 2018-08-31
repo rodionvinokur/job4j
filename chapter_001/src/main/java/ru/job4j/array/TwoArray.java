@@ -10,29 +10,29 @@ class TwoArray {
     /**
      * Method concat for two sort arrays.
      *
-     * @param first[]
-     * @param second[]
-     * @return common[]
+     * @param first  sort array.
+     * @param second sort array.
+     * @return common array = first merge second.
      */
     public int[] concat(int[] first, int[] second) {
         int[] common = new int[first.length + second.length];
         int indexFirst = 0;
         int indexSecond = 0;
         int indexCommon = 0;
-        while (common.length - indexFirst - indexSecond > 0) {
-            if ((indexSecond < second.length && indexFirst < first.length && first[indexFirst] > second[second.length - 1]) || (indexFirst == first.length)) {
-                common[indexCommon++] = second[indexSecond++];
-            } else {
-                if ((indexFirst < first.length && indexSecond < second.length && second[indexSecond] > first[first.length - 1]) || (indexSecond == second.length)) {
-                    common[indexCommon++] = first[indexFirst++];
-                } else {
-                    if (first[indexFirst] > second[indexSecond]) {
-                        common[indexCommon++] = second[indexSecond++];
-                    } else {
-                        common[indexCommon++] = first[indexFirst++];
-                    }
-                }
+        boolean fZerro = first.length == 0;
+        boolean sZerro = second.length == 0;
+        while (common.length > indexCommon) {
+            boolean fFinish = first.length <= indexFirst;
+            boolean sFinish = second.length <= indexSecond;
+            if (first.length == 0 && second.length == 0) {
+                break;
             }
+            if (fZerro || sZerro || fFinish || sFinish) {
+                common[indexCommon++] = (fZerro || fFinish) ? second[indexSecond++] : first[indexFirst++];
+                continue;
+            }
+            common[indexCommon++] = (first[indexFirst] > second[indexSecond])
+                    ? second[indexSecond++] : first[indexFirst++];
         }
         return common;
     }

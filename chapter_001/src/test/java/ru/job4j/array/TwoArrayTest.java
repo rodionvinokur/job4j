@@ -1,10 +1,8 @@
 package ru.job4j.array;
-
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-
 /**
  * Test for TwoArray
  *
@@ -71,6 +69,18 @@ public class TwoArrayTest {
         int[] input2 = new int[]{1, 2, 5, 6, 7, 8};
         int[] result = t.concat(input1, input2);
         int[] expect = new int[]{1, 1, 2, 3, 4, 5, 6, 7, 8, 100, 200, 300};
+        assertThat(result, is(expect));
+    }
+    /**
+     * Test for Method  int[] concat(int[], int[]).
+     */
+    @Test
+    public void whenSortsArraysEmptyThenResultEmpty() {
+        TwoArray t = new TwoArray();
+        int[] input1 = new int[]{};
+        int[] input2 = new int[]{};
+        int[] result = t.concat(input1, input2);
+        int[] expect = new int[]{};
         assertThat(result, is(expect));
     }
 }
