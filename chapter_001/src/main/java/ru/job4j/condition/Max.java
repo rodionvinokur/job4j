@@ -8,7 +8,6 @@ package ru.job4j.condition;
  * @since 1.0
  */
 public class Max {
-
     /**
      * Method maximum from two numbers.
      *

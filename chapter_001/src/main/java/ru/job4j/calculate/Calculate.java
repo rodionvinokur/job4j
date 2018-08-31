@@ -6,7 +6,6 @@ package ru.job4j.calculate;
 * @since 1.0
 */
 public class Calculate {
-
 /**
 * Method main
 * @version 1.0

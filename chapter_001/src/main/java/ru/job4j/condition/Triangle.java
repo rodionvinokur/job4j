@@ -34,7 +34,6 @@ public class Triangle {
         double ab = a.distanceTo(b);
         double ac = a.distanceTo(c);
         double bc = b.distanceTo(c);
-
         if (!isTriangle(ab, ac, bc)) {
             return -1;
         }

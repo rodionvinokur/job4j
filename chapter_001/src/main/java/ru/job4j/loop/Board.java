@@ -25,7 +25,6 @@ public class Board {
                     field.append(" ");
                 }
             }
-            // добавляем перевод на новую строку.
             field.append(ln);
         }
         return field.toString();
