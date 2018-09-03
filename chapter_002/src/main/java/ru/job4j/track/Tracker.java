@@ -65,6 +65,7 @@ public class Tracker {
         if (id != null) {
             int index = this.indexOf(id);
             if (index != -1) {
+                item.setId(this.generateId());
                 this.items[index] = item;
             }
         }
@@ -79,10 +80,11 @@ public class Tracker {
         if (id != null) {
             int index = this.indexOf(id);
             if (index != -1) {
-                for (int i = index; i - 1 < position; i++) {
-                    this.items[i] = this.items[i + 1];
+                if (index + 1 != this.position) {
+                    System.arraycopy(this.items,index + 1,
+                            this.items, index, this.position - index + 1);
                 }
-                position--;
+                --position;
             }
         }
     }
