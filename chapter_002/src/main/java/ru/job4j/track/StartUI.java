@@ -108,6 +108,7 @@ public class StartUI {
         this.tracker.add(item);
         System.out.println("------------ Новая заявка с getId : " + item.getId() + "-----------");
     }
+
     /**
      * Метод реализует поиск по ID.
      */
@@ -115,8 +116,11 @@ public class StartUI {
         System.out.println("------------- Поиск по номеру заявки ---------------");
         String id = this.input.ask("Введите номер заявки :");
         Item item = this.tracker.findById(id);
-        showItem(item);
+        if (item != null) {
+            showItem(item);
+        }
     }
+
     /**
      * Метод реализует поиск по имени.
      */
@@ -128,6 +132,7 @@ public class StartUI {
             showItem(item);
         }
     }
+
     /**
      * Метод реализует отображение всех заявок.
      */
@@ -137,44 +142,45 @@ public class StartUI {
             showItem(item);
         }
     }
+
     /**
      * Метод реализует отображение одной заявки.
      */
     private void showItem(Item item) {
         if (item != null) {
-            System.out.printf("Номер заявки:\t\t%s\n", item.getId());
-            System.out.printf("Имя заявки:\t\t\t%s\n", item.getName());
-            System.out.printf("Дата создания:\t\t%tF %<tT\n", item.getCreated());
-            System.out.printf("Описание заявки:\t%s\n", item.getDesc());
-            String[] com = item.getComments();
-            if (com != null) {
-                for (int index = 0; index < com.length; index++) {
-                    System.out.println(com[index]);
-                }
-            }
-            System.out.println("-----------------------------------------------------");
+            System.out.println(item.toString());
         }
     }
+
     /**
      * Метод реализует удаление одной заявки.
      */
     private void deleteItem() {
+        String result = "---------------------- Неудачно ----------------------";
         System.out.println("----------------- Удаление заявки -------------------");
         String id = this.input.ask("Введите номер заявки :");
-        this.tracker.delete(id);
-        System.out.println("---------------------- Готово -----------------------");
+        if (this.tracker.delete(id)) {
+            result = "---------------------- Успешно ----------------------";
+        }
+        System.out.println(result);
+
     }
+
     /**
      * Метод реализует редактирование одной заявки.
      */
     private void editItem() {
+        String result = "---------------------- Неудачно ----------------------";
         System.out.println("--------------- Редактирование заявки ----------------");
         String id = this.input.ask("Введите номер заявки :");
         String name = this.input.ask("Введите новое имя заявки :");
         String desc = this.input.ask("Введите новое описание заявки :");
-        this.tracker.replace(id, new Item(name, desc));
-        System.out.println("---------------------- Готово ------------------------");
+        if (this.tracker.replace(id, new Item(name, desc))) {
+            result = "---------------------- Готово ------------------------";
+        }
+        System.out.println(result);
     }
+
     /**
      * Метод реализует отображение меню.
      */

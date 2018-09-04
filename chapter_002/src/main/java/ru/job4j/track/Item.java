@@ -1,5 +1,7 @@
 package ru.job4j.track;
 
+import java.util.Arrays;
+
 /**
  * Created by slevi on 01.09.2018.
  */
@@ -41,5 +43,21 @@ public class Item {
 
     public String[] getComments() {
         return comments;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("Номер заявки:\t\t%s\n", id != null ? id : ""));
+        sb.append(String.format("Имя заявки:\t\t\t%s\n", name != null ? name : ""));
+        sb.append(String.format("Дата создания:\t\t%tF %<tT\n", created));
+        sb.append(String.format("Описание заявки:\t%s\n", desc));
+        if (comments != null) {
+            for (String s : comments) {
+                sb.append(String.format("Комментар. заявки:\t%s\n", s));
+            }
+        }
+        sb.append("-----------------------------------------------------");
+        return sb.toString();
     }
 }

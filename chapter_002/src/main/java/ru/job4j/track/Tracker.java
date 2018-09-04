@@ -1,7 +1,5 @@
 package ru.job4j.track;
 
-import com.sun.istack.internal.NotNull;
-
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Random;
@@ -49,7 +47,7 @@ public class Tracker {
      */
     public Item add(Item item) {
         if (item != null && position != items.length) {
-            long time = new Date().getTime()>>position;
+            long time = new Date().getTime() >> position;
             item.setCreated(time);
             String id = this.generateId(time);
             item.setId(id);
@@ -64,14 +62,17 @@ public class Tracker {
      * @param id
      * @param item
      */
-    public void replace(String id, Item item) {
+    public boolean replace(String id, Item item) {
+        boolean result = false;
         if (id != null) {
             int index = this.indexOf(id);
             if (index != -1) {
                 item.setId(id);
                 this.items[index] = item;
+                result = true;
             }
         }
+        return result;
     }
 
     /**
@@ -79,17 +80,20 @@ public class Tracker {
      *
      * @param id
      */
-    public void delete(String id) {
+    public boolean delete(String id) {
+        boolean result = false;
         if (id != null) {
             int index = this.indexOf(id);
             if (index != -1) {
                 if (index + 1 != this.position) {
-                    System.arraycopy(this.items,index + 1,
+                    System.arraycopy(this.items, index + 1,
                             this.items, index, this.position - (index + 1));
                 }
                 --position;
+                result = true;
             }
         }
+        return result;
     }
 
     /**
@@ -144,7 +148,7 @@ public class Tracker {
      * @param id
      * @return
      */
-    private int indexOf(@NotNull String id) {
+    private int indexOf(String id) {
         for (int index = 0; index < position; index++) {
             if (items[index].getId().equals(id)) {
                 return index;

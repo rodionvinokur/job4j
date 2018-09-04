@@ -8,7 +8,7 @@ import java.util.Scanner;
  * @version 1.0
  * @since 1.0
  */
-public class ConsoleInput implements Input{
+public class ConsoleInput implements Input {
     @Override
     public String ask(String q) {
         System.out.println(q);
