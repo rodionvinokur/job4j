@@ -82,7 +82,7 @@ public class Tracker {
             if (index != -1) {
                 if (index + 1 != this.position) {
                     System.arraycopy(this.items,index + 1,
-                            this.items, index, this.position - index + 1);
+                            this.items, index, this.position - (index + 1));
                 }
                 --position;
             }
@@ -105,9 +105,8 @@ public class Tracker {
      * @return
      */
     public Item[] findByName(String name) {
-        Item[] tmp = new Item[0];
+        Item[] tmp = new Item[this.position];
         if (name != null) {
-            tmp = new Item[this.position];
             int position = 0;
             for (int index = 0; index < this.position; index++) {
                 if (this.items[index].getName().equals(name)) {

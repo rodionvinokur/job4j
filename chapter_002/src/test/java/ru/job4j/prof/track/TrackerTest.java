@@ -102,9 +102,9 @@ public class TrackerTest {
     public void whenfindByNameThenArrayOfItem() {
         Tracker track  = new Tracker();
         Item exp1 = new Item("Test1", "Desc1");
-        Item exp2 = new Item("Test", "Desc2");
+        Item exp2 = new Item("Test2", "Desc2");
         Item exp3 = new Item("Test3", "Desc3");
-        Item exp5 = new Item("Test", "Desc4");
+        Item exp5 = new Item("Test4", "Desc4");
         Item exp4 = new Item("Test5", "Desc5");
         track.add(exp1);
         track.add(exp2);
@@ -113,5 +113,52 @@ public class TrackerTest {
         track.add(exp5);
         Item[] result = track.findByName("Test");
         assertThat(result.length, is(2));
+    }
+
+    @Test
+    public void whenDeleteLastThenCopyToLast() {
+        Tracker track  = new Tracker();
+        Item exp1 = new Item("Test1", "Desc1");
+        Item exp2 = new Item("Test2", "Desc2");
+        Item exp3 = new Item("Test3", "Desc3");
+        Item exp5 = new Item("Test4", "Desc4");
+        Item exp4 = new Item("Test5", "Desc5");
+        track.add(exp1);
+        track.add(exp2);
+        track.add(exp3);
+        track.add(exp4);
+        track.add(exp5);
+        String id = exp5.getId();
+        track.delete(id);
+        Item[] result = track.findAll();
+        assertThat(track.getItem(result.length - 1).getId(), is(exp4.getId()));
+    }
+
+    @Test
+    public void whenDeleteEmtyThenNothing() {
+        Tracker track  = new Tracker();
+        Item exp1 = new Item("Test1", "Desc1");
+        Item exp2 = new Item("Test2", "Desc2");
+        Item exp3 = new Item("Test3", "Desc3");
+        Item exp5 = new Item("Test4", "Desc4");
+        Item exp4 = new Item("Test5", "Desc5");
+        String id = exp5.getId();
+        track.delete(id);
+        Item[] result = track.findAll();
+        assertThat(result.length, is(0));
+    }
+
+    @Test
+    public void whenDeleteMiddleThen() {
+        Tracker track  = new Tracker();
+        Item exp1 = new Item("Test1", "Desc1");
+        Item exp2 = new Item("Test2", "Desc2");
+        Item exp3 = new Item("Test3", "Desc3");
+        Item exp5 = new Item("Test4", "Desc4");
+        Item exp4 = new Item("Test5", "Desc5");
+        String id = exp4.getId();
+        track.delete(id);
+        Item[] result = track.findAll();
+        assertThat(track.getItem(result.length - 1).getId(), is(exp5.getId()));
     }
 }
