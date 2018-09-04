@@ -15,6 +15,10 @@ public class Item {
         this.desc = desc;
     }
 
+    public void setCreated(long created) {
+        this.created = created;
+    }
+
     public String getId() {
         return id;
     }

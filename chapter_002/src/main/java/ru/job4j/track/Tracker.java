@@ -49,7 +49,9 @@ public class Tracker {
      */
     public Item add(Item item) {
         if (item != null && position != items.length) {
-            item.setId(this.generateId());
+            long time = new Date().getTime();
+            item.setCreated(time);
+            item.setId(this.generateId(time));
             this.items[this.position++] = item;
         }
         return item;
@@ -65,7 +67,7 @@ public class Tracker {
         if (id != null) {
             int index = this.indexOf(id);
             if (index != -1) {
-                item.setId(this.generateId());
+                item.setId(id);
                 this.items[index] = item;
             }
         }
@@ -156,8 +158,8 @@ public class Tracker {
      *
      * @return Уникальный ключ.
      */
-    private String generateId() {
-        Random random = new Random(new Date().getTime());
+    private String generateId(long time) {
+        Random random = new Random(time);
         return Long.toString(Math.abs(random.nextLong()));
     }
 }
