@@ -85,10 +85,8 @@ public class Tracker {
         if (id != null) {
             int index = this.indexOf(id);
             if (index != -1) {
-                if (index + 1 != this.position) {
                     System.arraycopy(this.items, index + 1,
                             this.items, index, this.position - (index + 1));
-                }
                 --position;
                 result = true;
             }
