@@ -1,4 +1,4 @@
-package ru.job4j.prof.track;
+package ru.job4j.track;
 
 import org.junit.Test;
 import ru.job4j.track.Item;
