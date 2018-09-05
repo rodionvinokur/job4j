@@ -48,13 +48,14 @@ public class Item {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("Номер заявки:\t\t%s\n", id != null ? id : ""));
-        sb.append(String.format("Имя заявки:\t\t\t%s\n", name != null ? name : ""));
-        sb.append(String.format("Дата создания:\t\t%tF %<tT\n", created));
-        sb.append(String.format("Описание заявки:\t%s\n", desc));
+        String ret = System.lineSeparator();
+        sb.append(String.format("Номер заявки:\t\t%s%s", id != null ? id : "", ret));
+        sb.append(String.format("Имя заявки:\t\t\t%s%s", name != null ? name : "", ret));
+        sb.append(String.format("Дата создания:\t\t%tF %<tT%s", created, ret));
+        sb.append(String.format("Описание заявки:\t%s%s", desc, ret));
         if (comments != null) {
             for (String s : comments) {
-                sb.append(String.format("Комментар. заявки:\t%s\n", s));
+                sb.append(String.format("Комментар. заявки:\t%s%s", s, ret));
             }
         }
         sb.append("-----------------------------------------------------");
