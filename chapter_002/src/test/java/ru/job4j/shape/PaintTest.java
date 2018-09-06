@@ -1,5 +1,7 @@
 package ru.job4j.shape;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -14,14 +16,23 @@ import static org.junit.Assert.assertThat;
  * @since 1.0
  */
 public class PaintTest {
+    private final PrintStream stdout = System.out;
+    private final ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+    @Before
+    public void setOut() {
+        System.setOut(new PrintStream(out));
+    }
+
+    @After
+    public void backOut() {
+        System.setOut(stdout);
+    }
     /**
      * Method whenDrawSquare.
      */
     @Test
     public void whenDrawSquare() {
-        PrintStream stdout = System.out;
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(out));
         Paint paint = new Paint();
         paint.setKind(new Square());
         paint.draw();
@@ -36,30 +47,24 @@ public class PaintTest {
                                 .toString()
                 )
         );
-        System.setOut(stdout);
     }
     /**
      * Method whenDrawTriangle.
      */
     @Test
     public void whenDrawTriangle() {
-        PrintStream stdout = System.out;
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(out));
         Paint paint = new Paint();
         paint.setKind(new Triangle());
         paint.draw();
-        String ret = System.lineSeparator();
         assertThat(
                 new String(out.toByteArray()),
                 is(
                         new StringBuilder()
-                                .append("  /\\").append(ret)
-                                .append(" /  \\").append(ret)
-                                .append("/____\\").append(ret)
+                                .append("  /\\").append(System.lineSeparator())
+                                .append(" /  \\").append(System.lineSeparator())
+                                .append("/____\\").append(System.lineSeparator())
                                 .toString()
                 )
         );
-        System.setOut(stdout);
     }
 }
