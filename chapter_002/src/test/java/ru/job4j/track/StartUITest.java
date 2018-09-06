@@ -1,7 +1,13 @@
 package ru.job4j.track;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.track.*;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
@@ -9,6 +15,18 @@ import static org.junit.Assert.*;
  * Created by slevi on 05.09.2018.
  */
 public class StartUITest {
+    private final PrintStream stdout = System.out;
+    private final ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+    @Before
+    public void setOut() {
+        System.setOut(new PrintStream(out));
+    }
+
+    @After
+    public void backOut() {
+        System.setOut(stdout);
+    }
     @Test
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
         Tracker tracker = new Tracker();     // создаём Tracker

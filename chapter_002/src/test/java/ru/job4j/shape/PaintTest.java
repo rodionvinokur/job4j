@@ -34,8 +34,7 @@ public class PaintTest {
     @Test
     public void whenDrawSquare() {
         Paint paint = new Paint();
-        paint.setKind(new Square());
-        paint.draw();
+        paint.draw(new Square());
         assertThat(
                 new String(out.toByteArray()),
                 is(
@@ -54,8 +53,7 @@ public class PaintTest {
     @Test
     public void whenDrawTriangle() {
         Paint paint = new Paint();
-        paint.setKind(new Triangle());
-        paint.draw();
+        paint.draw(new Triangle());
         assertThat(
                 new String(out.toByteArray()),
                 is(
