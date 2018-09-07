@@ -3,30 +3,69 @@ package ru.job4j.track;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import ru.job4j.track.*;
-
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 /**
- * Created by slevi on 05.09.2018.
+ * StartUITest
+ *
+ * @author Rodion V.
+ * @version 1.0
+ * @since 1.0
  */
 public class StartUITest {
     private final PrintStream stdout = System.out;
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
+    private StringBuilder menu = new StringBuilder();
+    private String ret = System.lineSeparator();
 
     @Before
     public void setOut() {
         System.setOut(new PrintStream(out));
     }
 
+    @Before
+    public void initMenu() {
+        menu.append("Меню.").append(ret)
+                .append("0. Добавить новую заявку.").append(ret)
+                .append("1. Показать все заявки.").append(ret)
+                .append("2. Редактировать заявку.").append(ret)
+                .append("3. Удалить заявку.").append(ret)
+                .append("4. Найти заявку по номеру.").append(ret)
+                .append("5. Найти заявку по имени.").append(ret)
+                .append("6. Выход из программы.").append(ret);
+    }
+
     @After
     public void backOut() {
         System.setOut(stdout);
     }
+
+    private void buildForm(String name,
+                           String desc,
+                           String title,
+                           StringBuilder sb,
+                           Item item,
+                           String... comments) {
+        sb.append(title).append(ret);
+        buildForm(name, desc, sb, item, comments);
+    }
+
+    private void buildForm(String name, String desc, StringBuilder sb, Item item, String... comments) {
+        sb.append("Номер заявки:      ").append(item.getId()).append(ret)
+                .append("Имя заявки:         ").append(name).append(ret)
+                .append(String.format("Дата создания:      %tF %<tT", item.getCreated())).append(ret)
+                .append("Описание заявки:   ").append(desc).append(ret);
+        if (comments.length != 0) {
+            for (String s : comments) {
+                sb.append(String.format("Комментар. заявки:   %s%s", s, ret));
+            }
+        }
+        sb.append("-----------------------------------------------------").append(ret);
+    }
+
     @Test
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
         Tracker tracker = new Tracker();     // создаём Tracker
@@ -50,7 +89,7 @@ public class StartUITest {
     }
 
     @Test
-    public void whenWrongMenuNumberThenSizeFindAllZerro() {
+    public void whenWrongMenuNumberThenSizeFindAll() {
         Tracker tracker = new Tracker();
         Input input = new StubInput(new String[]{"7", "6"});
         new StartUI(input, tracker).init();
@@ -79,5 +118,56 @@ public class StartUITest {
         Input input = new StubInput(new String[]{"3", item.getId(), "6"});
         new StartUI(input, tracker).init();
         assertThat(tracker.findAll().length, is(2));
+    }
+
+    @Test
+    public void whenShowByIdThen() {
+        Tracker tracker = new Tracker();
+        String name  = "test name1";
+        String desc = "desc1";
+        String title = "------------- Поиск по номеру заявки ---------------";
+        Item item = tracker.add(new Item(name, desc));
+        Input input = new StubInput(new String[]{"4", item.getId(), "6"});
+        StringBuilder total = new StringBuilder();
+        total.append(menu);
+        buildForm(name, desc, title, total, item);
+        total.append(menu);
+        new StartUI(input, tracker).init();
+        assertThat(new String(out.toByteArray()), is(total.toString()));
+    }
+
+    @Test
+    public void whenShowByNameThen() {
+        Tracker tracker = new Tracker();
+        String name  = "test1";
+        String desc = "desc1";
+        tracker.add(new Item("test2", "desc2"));
+        Item item = tracker.add(new Item(name, desc));
+        tracker.add(new Item("test3", "desc3"));
+        Input input = new StubInput(new String[]{"5", name, "6"});
+        StringBuilder total = new StringBuilder();
+        total.append(menu);
+        String title = "------------- Поиск по имени заявки ----------------";
+        buildForm(name, desc, title, total, item);
+        total.append(menu);
+        new StartUI(input, tracker).init();
+        assertThat(new String(out.toByteArray()), is(total.toString()));
+    }
+
+    @Test
+    public void whenShowAllThen() {
+        Tracker tracker = new Tracker();
+        Item item2 = tracker.add(new Item("test2", "desc2"));
+        Item item1 = tracker.add(new Item("test1", "desc1"));
+        Item item3 = tracker.add(new Item("test3", "desc3"));
+        Input input = new StubInput(new String[]{"1", "6"});
+        StringBuilder total = new StringBuilder();
+        total.append(menu);
+        buildForm("test2", "desc2", total, item2);
+        buildForm("test1", "desc1", total, item1);
+        buildForm("test3", "desc3", total, item3);
+        total.append(menu);
+        new StartUI(input, tracker).init();
+        assertThat(new String(out.toByteArray()), is(total.toString()));
     }
 }

@@ -3,7 +3,11 @@ package ru.job4j.track;
 import java.util.Arrays;
 
 /**
- * Created by slevi on 01.09.2018.
+ * Item.
+ *
+ * @author Rodion V.
+ * @version 1.0
+ * @since 1.0
  */
 public class Item {
     private String id;
@@ -49,13 +53,13 @@ public class Item {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         String ret = System.lineSeparator();
-        sb.append(String.format("Номер заявки:\t\t%s%s", id != null ? id : "", ret));
-        sb.append(String.format("Имя заявки:\t\t\t%s%s", name != null ? name : "", ret));
-        sb.append(String.format("Дата создания:\t\t%tF %<tT%s", created, ret));
-        sb.append(String.format("Описание заявки:\t%s%s", desc, ret));
+        sb.append(String.format("Номер заявки:      %s%s", id != null ? id : "", ret));
+        sb.append(String.format("Имя заявки:         %s%s", name != null ? name : "", ret));
+        sb.append(String.format("Дата создания:      %tF %<tT%s", created, ret));
+        sb.append(String.format("Описание заявки:   %s%s", desc, ret));
         if (comments != null) {
             for (String s : comments) {
-                sb.append(String.format("Комментар. заявки:\t%s%s", s, ret));
+                sb.append(String.format("Комментар. заявки:   %s%s", s, ret));
             }
         }
         sb.append("-----------------------------------------------------");
