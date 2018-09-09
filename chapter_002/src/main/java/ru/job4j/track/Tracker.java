@@ -47,9 +47,9 @@ public class Tracker {
      */
     public Item add(Item item) {
         if (item != null && position != items.length) {
-            long time = new Date().getTime() >> position;
+            long time = new Date().getTime();
             item.setCreated(time);
-            String id = this.generateId(time);
+            String id = this.generateId(time >> position);
             item.setId(id);
             this.items[this.position++] = item;
         }

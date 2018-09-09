@@ -1,9 +1,12 @@
 package ru.job4j.track;
 
 /**
- * Created by slevi on 05.09.2018.
+ * StubInput.
+ *
+ * @author Rodion V.
+ * @version 1.0
+ * @since 1.0
  */
-
 public class StubInput implements Input {
     /**
      * Это поле содержит последовательность ответов пользователя.

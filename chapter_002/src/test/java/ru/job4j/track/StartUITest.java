@@ -24,10 +24,6 @@ public class StartUITest {
     @Before
     public void setOut() {
         System.setOut(new PrintStream(out));
-    }
-
-    @Before
-    public void initMenu() {
         menu.append("Меню.").append(ret)
                 .append("0. Добавить новую заявку.").append(ret)
                 .append("1. Показать все заявки.").append(ret)
@@ -36,6 +32,7 @@ public class StartUITest {
                 .append("4. Найти заявку по номеру.").append(ret)
                 .append("5. Найти заявку по имени.").append(ret)
                 .append("6. Выход из программы.").append(ret);
+
     }
 
     @After
@@ -54,13 +51,14 @@ public class StartUITest {
     }
 
     private void buildForm(String name, String desc, StringBuilder sb, Item item, String... comments) {
-        sb.append("Номер заявки:      ").append(item.getId()).append(ret)
-                .append("Имя заявки:         ").append(name).append(ret)
-                .append(String.format("Дата создания:      %tF %<tT", item.getCreated())).append(ret)
-                .append("Описание заявки:   ").append(desc).append(ret);
+        sb.append(String.format("Номер заявки:%20s%s", item.getId() != null ? item.getId() : "", ret));
+        sb.append(String.format("Имя заявки:%22s%s", name != null ? name : "", ret));
+        sb.append(String.format("Дата создания:%19tF %<tT%s", item.getCreated(), ret));
+        sb.append(String.format("Описание заявки:%17s%s", desc, ret));
+
         if (comments.length != 0) {
             for (String s : comments) {
-                sb.append(String.format("Комментар. заявки:   %s%s", s, ret));
+                sb.append(String.format("Комментар. заявки: %s%s", s, ret));
             }
         }
         sb.append("-----------------------------------------------------").append(ret);
@@ -68,24 +66,19 @@ public class StartUITest {
 
     @Test
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
-        Tracker tracker = new Tracker();     // создаём Tracker
-        Input input = new StubInput(new String[]{"0", "test name", "desc", "6"});   //создаём StubInput с последовательностью действий
-        new StartUI(input, tracker).init();     //   создаём StartUI и вызываем метод init()
-        assertThat(tracker.findAll()[0].getName(), is("test name")); // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
+        Tracker tracker = new Tracker();
+        Input input = new StubInput(new String[]{"0", "test name", "desc", "6"});
+        new StartUI(input, tracker).init();
+        assertThat(tracker.findAll()[0].getName(), is("test name"));
     }
 
     @Test
     public void whenUpdateThenTrackerHasUpdatedValue() {
-        // создаём Tracker
-        Tracker tracker = new Tracker();
-        //Напрямую добавляем заявку
-        Item item = tracker.add(new Item("test name", "desc"));
-        //создаём StubInput с последовательностью действий(производим замену заявки)
-        Input input = new StubInput(new String[]{"2", item.getId(), "test replace", "заменили заявку", "6"});
-        // создаём StartUI и вызываем метод init()
-        new StartUI(input, tracker).init();
-        // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
-        assertThat(tracker.findById(item.getId()).getName(), is("test replace"));
+         Tracker tracker = new Tracker();
+         Item item = tracker.add(new Item("test name", "desc"));
+         Input input = new StubInput(new String[]{"2", item.getId(), "test replace", "заменили заявку", "6"});
+         new StartUI(input, tracker).init();
+         assertThat(tracker.findById(item.getId()).getName(), is("test replace"));
     }
 
     @Test
