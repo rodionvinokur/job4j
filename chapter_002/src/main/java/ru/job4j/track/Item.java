@@ -53,10 +53,10 @@ public class Item {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         String ret = System.lineSeparator();
-        sb.append(String.format("Номер заявки:%20s%s", id != null ? id : "", ret));
-        sb.append(String.format("Имя заявки:%22s%s", name != null ? name : "", ret));
-        sb.append(String.format("Дата создания:%19tF %<tT%s", created, ret));
-        sb.append(String.format("Описание заявки:%17s%s", desc, ret));
+        sb.append(String.format("Номер заявки:%4s%s%s", "", id != null ? id : "", ret));
+        sb.append(String.format("Имя заявки:%6s%s%s", "", name != null ? name : "", ret));
+        sb.append(String.format("Дата создания:%3s%tF %<tT%s", "", created, ret));
+        sb.append(String.format("Описание заявки:%1s%s%s", "", desc, ret));
         if (comments != null) {
             for (String s : comments) {
                 sb.append(String.format("Комментар. заявки: %s%s", s, ret));
