@@ -3,6 +3,7 @@ package ru.job4j.track;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import static org.hamcrest.core.Is.is;
@@ -29,7 +30,8 @@ public class StartUITest {
                 .append("2. Редактировать заявку.").append(ret)
                 .append("3. Удалить заявку.").append(ret)
                 .append("4. Найти заявку по номеру.").append(ret)
-                .append("5. Найти заявку по имени.").append(ret);
+                .append("5. Найти заявку по имени.").append(ret)
+                .append("6. Выход из программы.").append(ret);
     }
 
     @After
@@ -63,24 +65,24 @@ public class StartUITest {
     @Test
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
         Tracker tracker = new Tracker();
-        Input input = new StubInput(new String[]{"0", "test name", "desc", "y"});
+        Input input = new StubInput(new String[]{"0", "test name", "desc", "6"});
         new StartUI(input, tracker).init();
         assertThat(tracker.findAll()[0].getName(), is("test name"));
     }
 
     @Test
     public void whenUpdateThenTrackerHasUpdatedValue() {
-         Tracker tracker = new Tracker();
-         Item item = tracker.add(new Item("test name", "desc"));
-         Input input = new StubInput(new String[]{"2", item.getId(), "test replace", "заменили заявку", "y"});
-         new StartUI(input, tracker).init();
-         assertThat(tracker.findById(item.getId()).getName(), is("test replace"));
+        Tracker tracker = new Tracker();
+        Item item = tracker.add(new Item("test name", "desc"));
+        Input input = new StubInput(new String[]{"2", item.getId(), "test replace", "заменили заявку", "6"});
+        new StartUI(input, tracker).init();
+        assertThat(tracker.findById(item.getId()).getName(), is("test replace"));
     }
 
     @Test
     public void whenWrongMenuNumberThenSizeFindAll() {
         Tracker tracker = new Tracker();
-        Input input = new StubInput(new String[]{"7", "y"});
+        Input input = new StubInput(new String[]{"7", "6"});
         new StartUI(input, tracker).init();
         assertThat(tracker.findAll().length, is(0));
     }
@@ -92,7 +94,7 @@ public class StartUITest {
         tracker.add(new Item("test name2", "desc2"));
         Item item = tracker.add(new Item("Delete", "desc"));
         assertNotNull(tracker.findById(item.getId()));
-        Input input = new StubInput(new String[]{"3", item.getId(), "y"});
+        Input input = new StubInput(new String[]{"3", item.getId(), "6"});
         new StartUI(input, tracker).init();
         assertNull(tracker.findById(item.getId()));
     }
@@ -104,7 +106,7 @@ public class StartUITest {
         Item item = tracker.add(new Item("Delete", "desc2"));
         tracker.add(new Item("test name3", "desc3"));
         assertNotNull(tracker.findById(item.getId()));
-        Input input = new StubInput(new String[]{"3", item.getId(), "y"});
+        Input input = new StubInput(new String[]{"3", item.getId(), "6"});
         new StartUI(input, tracker).init();
         assertThat(tracker.findAll().length, is(2));
     }
@@ -112,14 +114,15 @@ public class StartUITest {
     @Test
     public void whenShowByIdThen() {
         Tracker tracker = new Tracker();
-        String name  = "test name1";
+        String name = "test name1";
         String desc = "desc1";
         String title = "------------- Поиск по номеру заявки ---------------";
         Item item = tracker.add(new Item(name, desc));
-        Input input = new StubInput(new String[]{"4", item.getId(), "y"});
+        Input input = new StubInput(new String[]{"4", item.getId(), "6"});
         StringBuilder total = new StringBuilder();
         total.append(menu);
         buildForm(name, desc, title, total, item);
+        total.append(menu);
         new StartUI(input, tracker).init();
         assertThat(new String(out.toByteArray()), is(total.toString()));
     }
@@ -127,16 +130,17 @@ public class StartUITest {
     @Test
     public void whenShowByNameThen() {
         Tracker tracker = new Tracker();
-        String name  = "test1";
+        String name = "test1";
         String desc = "desc1";
         tracker.add(new Item("test2", "desc2"));
         Item item = tracker.add(new Item(name, desc));
         tracker.add(new Item("test3", "desc3"));
-        Input input = new StubInput(new String[]{"5", name, "y"});
+        Input input = new StubInput(new String[]{"5", name, "6"});
         StringBuilder total = new StringBuilder();
         total.append(menu);
         String title = "------------- Поиск по имени заявки ----------------";
         buildForm(name, desc, title, total, item);
+        total.append(menu);
         new StartUI(input, tracker).init();
         assertThat(new String(out.toByteArray()), is(total.toString()));
     }
@@ -147,12 +151,13 @@ public class StartUITest {
         Item item2 = tracker.add(new Item("test2", "desc2"));
         Item item1 = tracker.add(new Item("test1", "desc1"));
         Item item3 = tracker.add(new Item("test3", "desc3"));
-        Input input = new StubInput(new String[]{"1", "y"});
+        Input input = new StubInput(new String[]{"1", "6"});
         StringBuilder total = new StringBuilder();
         total.append(menu);
         buildForm("test2", "desc2", total, item2);
         buildForm("test1", "desc1", total, item1);
         buildForm("test3", "desc3", total, item3);
+        total.append(menu);
         new StartUI(input, tracker).init();
         assertThat(new String(out.toByteArray()), is(total.toString()));
     }

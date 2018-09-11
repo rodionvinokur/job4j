@@ -4,229 +4,271 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MenuTracker {
-	/**
-	 * Константа меню для добавления новой заявки.
-	 */
-	private static final int ADD = 0;
+    /**
+     * Константа меню для добавления новой заявки.
+     */
+    private static final int ADD = 0;
 
-	/**
-	 * Константа для отображения всех заявок.
-	 */
-	private static final int SHOW = 1;
-	/**
-	 * Константа для редактирования заявки.
-	 */
-	private static final int EDIT = 2;
-	/**
-	 * Константа для удаления.
-	 */
-	private static final int DEL = 3;
-	/**
-	 * Константа для поиска по ID.
-	 */
-	private static final int FBYID = 4;
-	/**
-	 * Константа для поиска по имени.
-	 */
-	private static final int FBYNAME = 5;
-	/**
-	 * Константа для выхода из цикла.
-	 */
-	private static final int EXIT = 6;
-	/**
-	 * @param хранит ссылку на объект .
-	 */
-	private Input input;
-	/**
-	 * @param хранит ссылку на объект .
-	 */
-	private Tracker tracker;
-	/**
-	 * @param хранит ссылку на массив типа UserAction.
-	 */
-	private List<UserAction> actions = new ArrayList<>();
+    /**
+     * Константа для отображения всех заявок.
+     */
+    private static final int SHOW = 1;
+    /**
+     * Константа для редактирования заявки.
+     */
+    private static final int EDIT = 2;
+    /**
+     * Константа для удаления.
+     */
+    private static final int DEL = 3;
+    /**
+     * Константа для поиска по ID.
+     */
+    private static final int FBYID = 4;
+    /**
+     * Константа для поиска по имени.
+     */
+    private static final int FBYNAME = 5;
+    /**
+     * Константа для выхода из цикла.
+     */
+    private static final int EXIT = 6;
+    /**
+     * @param хранит ссылку на объект .
+     */
+    private Input input;
+    /**
+     * @param хранит ссылку на объект .
+     */
+    private Tracker tracker;
+    /**
+     * @param хранит ссылку на массив типа UserAction.
+     */
+    private List<UserAction> actions = new ArrayList<>();
 
-	/**
-	 * Конструктор.
-	 *
-	 * @param input   объект типа Input
-	 * @param tracker объект типа Tracker
-	 */
-	public MenuTracker(Input input, Tracker tracker) {
-		this.input = input;
-		this.tracker = tracker;
-	}
+    private boolean complete = false;
 
-	/**
-	 * Метод для получения массива меню.
-	 *
-	 * @return длину массива
-	 */
-	public int getActionsLentgh() {
-		return this.actions.size();
-	}
+    public List<UserAction> getActions() {
+        return actions;
+    }
 
-	/**
-	 * Метод заполняет массив. ("0. Добавить новую заявку.") ("1. Показать все
-	 * заявки.") ("2. Редактировать заявку.") ("3. Удалить заявку.") ("4. Найти
-	 * заявку по номеру.") ("5. Найти заявку по имени.") ("6. Выход из программы.")
-	 */
-	public void fillActions() {
-		this.actions.add(this.new AddItem(ADD, ADD + ". Добавить новую заявку."));
-		this.actions.add(this.new ShowItems(SHOW, SHOW + ". Показать все заявки."));
-		this.actions.add(new MenuTracker.EditItem(EDIT, EDIT + ". Редактировать заявку."));
-		this.actions.add(new DeleteItem(DEL, DEL + ". Удалить заявку."));
-		this.actions.add(this.new FindItemById(FBYID, FBYID + ". Найти заявку по номеру."));
-		this.actions.add(this.new FindItemsByName(FBYNAME, FBYNAME + ". Найти заявку по имени."));
-		// his.actions.add(new ExitProgram(EXIT, EXIT + ". Выход из программы."));
-	}
+    public int[] range() {
+        int[] range = new int[actions.size()];
+        int i = 0;
+        for (UserAction act : actions) {
+            range[i++] = act.key();
+        }
+        return range;
+    }
 
-	/**
-	 * Метод в зависимости от указанного ключа, выполняет соотвествующие действие.
-	 *
-	 * @param key ключ операции
-	 */
+    public boolean isComplete() {
+        return complete;
+    }
 
-	public void select(int key) {
-		this.actions.get(key).execute(this.input, this.tracker);
-	}
+    public boolean inRange(int act) {
+        boolean result = false;
+        for (int i : range()) {
+            if (act == i) {
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
 
-	/**
-	 * Метод выводит на экран меню.
-	 */
-	public void show() {
-		for (UserAction action : this.actions) {
-			if (action != null) {
-				System.out.println(action.info());
-			}
-		}
-	}
+    /**
+     * Конструктор.
+     *
+     * @param input   объект типа Input
+     * @param tracker объект типа Tracker
+     */
+    public MenuTracker(Input input, Tracker tracker) {
+        this.input = input;
+        this.tracker = tracker;
+    }
 
-	public class AddItem extends Action implements UserAction {
-		public AddItem(int key, String name) {
-			super(key, name);
-		}
+    /**
+     * Метод для получения массива меню.
+     *
+     * @return длину массива
+     */
+    public int getActionsLentgh() {
+        return this.actions.size();
+    }
 
-		@Override
-		public void execute(Input input, Tracker tracker) {
-			System.out.println("------------ Добавление новой заявки --------------");
-			String name = input.ask("Введите имя заявки :");
-			String desc = input.ask("Введите описание заявки :");
-			Item item = new Item(name, desc);
-			tracker.add(item);
-			System.out.println("------------ Новая заявка с getId : " + item.getId() + "-----------");
-		}
-	}
+    /**
+     * Метод заполняет массив. ("0. Добавить новую заявку.") ("1. Показать все
+     * заявки.") ("2. Редактировать заявку.") ("3. Удалить заявку.") ("4. Найти
+     * заявку по номеру.") ("5. Найти заявку по имени.") ("6. Выход из программы.")
+     */
+    public void fillActions() {
+        this.actions.add(this.new AddItem(ADD, ADD + ". Добавить новую заявку."));
+        this.actions.add(this.new ShowItems(SHOW, SHOW + ". Показать все заявки."));
+        this.actions.add(new MenuTracker.EditItem(EDIT, EDIT + ". Редактировать заявку."));
+        this.actions.add(new DeleteItem(DEL, DEL + ". Удалить заявку."));
+        this.actions.add(this.new FindItemById(FBYID, FBYID + ". Найти заявку по номеру."));
+        this.actions.add(this.new FindItemsByName(FBYNAME, FBYNAME + ". Найти заявку по имени."));
+        this.actions.add(new ExitProgram(EXIT, EXIT + ". Выход из программы."));
+    }
 
-	public class FindItemById extends Action implements UserAction {
-		public FindItemById(int key, String name) {
-			super(key, name);
-		}
+    /**
+     * Метод в зависимости от указанного ключа, выполняет соотвествующие действие.
+     *
+     * @param key ключ операции
+     */
 
-		/**
-		 * Метод реализует поиск по ID.
-		 */
-		@Override
-		public void execute(Input input, Tracker tracker) {
-			System.out.println("------------- Поиск по номеру заявки ---------------");
-			String id = input.ask("Введите номер заявки :");
-			Item item = tracker.findById(id);
-			if (item != null) {
-				showItem(item);
-			}
-		}
+    public void select(int key) {
+        this.actions.get(key).execute(this.input, this.tracker);
+    }
 
-		/**
-		 * Метод реализует отображение одной заявки.
-		 */
-		private void showItem(Item item) {
-			if (item != null) {
-				System.out.println(item.toString());
-			}
-		}
-	}
+    /**
+     * Метод выводит на экран меню.
+     */
+    public void show() {
+        for (UserAction action : this.actions) {
+            if (action != null) {
+                System.out.println(action.info());
+            }
+        }
+    }
 
-	public class FindItemsByName extends Action implements UserAction {
-		@Override
-		public void execute(Input input, Tracker tracker) {
-			System.out.println("------------- Поиск по имени заявки ----------------");
-			String name = input.ask("Введите имя заявки :");
-			Item[] items = tracker.findByName(name);
-			for (Item item : items) {
-				showItem(item);
-			}
-		}
+    public class AddItem extends Action implements UserAction {
+        public AddItem(int key, String name) {
+            super(key, name);
+        }
 
-		public FindItemsByName(int key, String name) {
-			super(key, name);
-		}
+        @Override
+        public void execute(Input input, Tracker tracker) {
+            System.out.println("------------ Добавление новой заявки --------------");
+            String name = input.ask("Введите имя заявки :");
+            String desc = input.ask("Введите описание заявки :");
+            Item item = new Item(name, desc);
+            tracker.add(item);
+            System.out.println("------------ Новая заявка с getId : " + item.getId() + "-----------");
+        }
+    }
 
-		/**
-		 * Метод реализует отображение одной заявки.
-		 */
-		private void showItem(Item item) {
-			if (item != null) {
-				System.out.println(item.toString());
-			}
-		}
-	}
+    public class FindItemById extends Action implements UserAction {
+        public FindItemById(int key, String name) {
+            super(key, name);
+        }
 
-	public class ShowItems extends Action implements UserAction {
-		@Override
-		public void execute(Input input, Tracker tracker) {
-			Item[] items = tracker.findAll();
-			for (Item item : items) {
-				showItem(item);
-			}
-		}
+        /**
+         * Метод реализует поиск по ID.
+         */
+        @Override
+        public void execute(Input input, Tracker tracker) {
+            System.out.println("------------- Поиск по номеру заявки ---------------");
+            String id = input.ask("Введите номер заявки :");
+            Item item = tracker.findById(id);
+            if (item != null) {
+                showItem(item);
+            }
+        }
 
-		public ShowItems(int key, String name) {
-			super(key, name);
-		}
+        /**
+         * Метод реализует отображение одной заявки.
+         */
+        private void showItem(Item item) {
+            if (item != null) {
+                System.out.println(item.toString());
+            }
+        }
+    }
 
-		/**
-		 * Метод реализует отображение одной заявки.
-		 */
-		private void showItem(Item item) {
-			if (item != null) {
-				System.out.println(item.toString());
-			}
-		}
-	}
+    public class FindItemsByName extends Action implements UserAction {
+        @Override
+        public void execute(Input input, Tracker tracker) {
+            System.out.println("------------- Поиск по имени заявки ----------------");
+            String name = input.ask("Введите имя заявки :");
+            Item[] items = tracker.findByName(name);
+            for (Item item : items) {
+                showItem(item);
+            }
+        }
 
-	public static class EditItem extends Action implements UserAction {
-		public EditItem(int key, String name) {
-			super(key, name);
-		}
+        public FindItemsByName(int key, String name) {
+            super(key, name);
+        }
 
-		@Override
-		public void execute(Input input, Tracker tracker) {
-			String result = "---------------------- Неудачно ----------------------";
-			System.out.println("--------------- Редактирование заявки ----------------");
-			String id = input.ask("Введите номер заявки :");
-			String name = input.ask("Введите новое имя заявки :");
-			String desc = input.ask("Введите новое описание заявки :");
-			if (tracker.replace(id, new Item(name, desc))) {
-				result = "---------------------- Готово ------------------------";
-			}
-			System.out.println(result);
-		}
-	}
+        /**
+         * Метод реализует отображение одной заявки.
+         */
+        private void showItem(Item item) {
+            if (item != null) {
+                System.out.println(item.toString());
+            }
+        }
+    }
+
+    public class ShowItems extends Action implements UserAction {
+        @Override
+        public void execute(Input input, Tracker tracker) {
+            Item[] items = tracker.findAll();
+            for (Item item : items) {
+                showItem(item);
+            }
+        }
+
+        public ShowItems(int key, String name) {
+            super(key, name);
+        }
+
+        /**
+         * Метод реализует отображение одной заявки.
+         */
+        private void showItem(Item item) {
+            if (item != null) {
+                System.out.println(item.toString());
+            }
+        }
+    }
+
+    public static class EditItem extends Action implements UserAction {
+        public EditItem(int key, String name) {
+            super(key, name);
+        }
+
+        @Override
+        public void execute(Input input, Tracker tracker) {
+            String result = "---------------------- Неудачно ----------------------";
+            System.out.println("--------------- Редактирование заявки ----------------");
+            String id = input.ask("Введите номер заявки :");
+            String name = input.ask("Введите новое имя заявки :");
+            String desc = input.ask("Введите новое описание заявки :");
+            if (tracker.replace(id, new Item(name, desc))) {
+                result = "---------------------- Готово ------------------------";
+            }
+            System.out.println(result);
+        }
+    }
+
+    public class ExitProgram extends Action implements UserAction {
+        @Override
+        public void execute(Input input, Tracker tracker) {
+            complete = true;
+        }
+
+        public ExitProgram(int key, String name) {
+            super(key, name);
+        }
+
+    }
 }
 
 class DeleteItem extends Action implements UserAction {
-	public DeleteItem(int key, String name) {
-		super(key, name);
-	}
+    public DeleteItem(int key, String name) {
+        super(key, name);
+    }
 
-	@Override
-	public void execute(Input input, Tracker tracker) {
-		String result = "---------------------- Неудачно ----------------------";
-		System.out.println("----------------- Удаление заявки -------------------");
-		String id = input.ask("Введите номер заявки :");
-		if (tracker.delete(id)) {
-			result = "---------------------- Успешно ----------------------";
-		}
-		System.out.println(result);
-	}
+    @Override
+    public void execute(Input input, Tracker tracker) {
+        String result = "---------------------- Неудачно ----------------------";
+        System.out.println("----------------- Удаление заявки -------------------");
+        String id = input.ask("Введите номер заявки :");
+        if (tracker.delete(id)) {
+            result = "---------------------- Успешно ----------------------";
+        }
+        System.out.println(result);
+    }
 }

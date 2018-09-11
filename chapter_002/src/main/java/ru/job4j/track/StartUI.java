@@ -1,6 +1,6 @@
 package ru.job4j.track;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -38,23 +38,18 @@ public class StartUI {
      * Основой цикл программы.
      */
     public void init() {
-       		MenuTracker menu = new MenuTracker(this.input, this.tracker);
-    		List<Integer> range = new ArrayList<>();
-    		menu.fillActions();
-    		for (int i = 0; i < menu.getActionsLentgh(); i++) {
-    			range.add(i);
-    		}
-    		do {
-    			int i = -1;
-    			menu.show();
-    			Scanner sc  = new Scanner(input.ask("Введите число: " + range));
-    			if (sc.hasNextInt()) {
-    			    i = sc.nextInt();
-    			    if (i > -1 && i < range.size()) {
-                        menu.select(i);
-                    }
-    			}
-    		} while (!"y".equals(this.input.ask("Exit?(y): ")));
+        MenuTracker menu = new MenuTracker(this.input, this.tracker);
+        menu.fillActions();
+        do {
+            menu.show();
+            String inputString = input.ask("Введите число: " + Arrays.toString(menu.range()));
+            Scanner sc = new Scanner(inputString);
+            if (sc.hasNextInt()) {
+                if (menu.inRange(Integer.parseInt(inputString))) {
+                    menu.select(Integer.parseInt(inputString));
+                }
+            }
+        } while (!menu.isComplete());
     }
 
     /**
@@ -65,6 +60,6 @@ public class StartUI {
     public static void main(String[] args) {
         new StartUI(new ConsoleInput(), new Tracker()).init();
     }
-    
-    
+
+
 }
