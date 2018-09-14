@@ -15,4 +15,9 @@ public class ConsoleInput implements Input {
         Scanner sc = new Scanner(System.in);
         return sc.nextLine();
     }
+
+    @Override
+    public int ask(String q, int[] range) {
+        return new ValidateInput().ask(q, range);
+    }
 }

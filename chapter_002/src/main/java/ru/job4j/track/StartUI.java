@@ -1,8 +1,6 @@
 package ru.job4j.track;
 
 import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
 
 /**
  * StartUI.
@@ -42,13 +40,8 @@ public class StartUI {
         menu.fillActions();
         do {
             menu.show();
-            String inputString = input.ask("Введите число: " + Arrays.toString(menu.range()));
-            Scanner sc = new Scanner(inputString);
-            if (sc.hasNextInt()) {
-                if (menu.inRange(Integer.parseInt(inputString))) {
-                    menu.select(Integer.parseInt(inputString));
-                }
-            }
+            menu.select(input.ask("Введите номер пункта: " + Arrays.toString(menu.range()), menu.range()));
+
         } while (!menu.isComplete());
     }
 

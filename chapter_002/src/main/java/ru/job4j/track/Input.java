@@ -9,4 +9,5 @@ package ru.job4j.track;
  */
 public interface Input {
     String ask(String q);
+    int ask(String question, int[] range);
 }

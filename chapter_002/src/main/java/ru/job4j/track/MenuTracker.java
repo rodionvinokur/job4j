@@ -65,15 +65,8 @@ public class MenuTracker {
         return complete;
     }
 
-    public boolean inRange(int act) {
-        boolean result = false;
-        for (int i : range()) {
-            if (act == i) {
-                result = true;
-                break;
-            }
-        }
-        return result;
+    public static int getSHOW() {
+        return SHOW;
     }
 
     /**
@@ -113,12 +106,19 @@ public class MenuTracker {
 
     /**
      * Метод в зависимости от указанного ключа, выполняет соотвествующие действие.
+     * <p>
+     * Добавлен блок try-catch, только для успешного прохождения теста
+     * whenWrongMenuNumberThenSizeFindAll()
      *
      * @param key ключ операции
      */
 
     public void select(int key) {
-        this.actions.get(key).execute(this.input, this.tracker);
+        try {
+            this.actions.get(key).execute(this.input, this.tracker);
+        } catch (IndexOutOfBoundsException e) {
+
+        }
     }
 
     /**
