@@ -41,7 +41,6 @@ public class StartUI {
         do {
             menu.show();
             menu.select(input.ask("Введите номер пункта: " + Arrays.toString(menu.range()), menu.range()));
-
         } while (!menu.isComplete());
     }
 
@@ -51,7 +50,12 @@ public class StartUI {
      * @param args
      */
     public static void main(String[] args) {
-        new StartUI(new ConsoleInput(), new Tracker()).init();
+        new StartUI(
+                new ValidateInput(
+                        new ConsoleInput()
+                ),
+                new Tracker()
+        ).init();
     }
 
 

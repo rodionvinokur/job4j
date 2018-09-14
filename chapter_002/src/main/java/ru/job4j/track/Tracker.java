@@ -68,6 +68,8 @@ public class Tracker {
             int index = this.indexOf(id);
             if (index != -1) {
                 item.setId(id);
+                long time = new Date().getTime();
+                item.setCreated(time);
                 this.items[index] = item;
                 result = true;
             }

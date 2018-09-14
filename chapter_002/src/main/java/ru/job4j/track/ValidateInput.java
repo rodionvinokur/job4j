@@ -1,31 +1,35 @@
 package ru.job4j.track;
 
 import java.util.Arrays;
-import java.util.Scanner;
 
 /**
  * ValidateInput.
  *
  * @author Rodion V.
- * @version 1.0
+ * @version 2.0
  * @since 1.0
  */
-public class ValidateInput extends ConsoleInput {
+public class ValidateInput implements Input {
+    private Input input;
+
+    public ValidateInput(Input input) {
+        this.input = input;
+    }
 
     @Override
     public int ask(String q, int[] range) {
         int ret = -1;
         do {
-            q = super.ask(q);
+            String str = this.ask(q);
             try {
-                ret = Integer.parseInt(q);
+                ret = Integer.parseInt(str);
                 if (!inRange(ret, range)) {
                     throw new MenuOutException("Введите число из диапазона: " + Arrays.toString(range));
                 }
             } catch (NumberFormatException e) {
-                q = "Введите целое число: ";
+                System.out.println("Введите целое число: ");
             } catch (MenuOutException e) {
-                q = e.getMessage();
+                System.out.println(e.getMessage());
                 ret = -1;
             }
         } while (ret == -1);
@@ -41,5 +45,10 @@ public class ValidateInput extends ConsoleInput {
             }
         }
         return result;
+    }
+
+    @Override
+    public String ask(String q) {
+        return this.input.ask(q);
     }
 }
