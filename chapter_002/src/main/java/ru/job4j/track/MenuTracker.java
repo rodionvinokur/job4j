@@ -132,7 +132,7 @@ public class MenuTracker {
         }
     }
 
-    public class AddItem extends Action implements UserAction {
+    public class AddItem extends BaseAction implements UserAction {
         public AddItem(int key, String name) {
             super(key, name);
         }
@@ -148,7 +148,7 @@ public class MenuTracker {
         }
     }
 
-    public class FindItemById extends Action implements UserAction {
+    public class FindItemById extends BaseAction implements UserAction {
         public FindItemById(int key, String name) {
             super(key, name);
         }
@@ -176,7 +176,7 @@ public class MenuTracker {
         }
     }
 
-    public class FindItemsByName extends Action implements UserAction {
+    public class FindItemsByName extends BaseAction implements UserAction {
         @Override
         public void execute(Input input, Tracker tracker) {
             System.out.println("------------- Поиск по имени заявки ----------------");
@@ -201,7 +201,7 @@ public class MenuTracker {
         }
     }
 
-    public class ShowItems extends Action implements UserAction {
+    public class ShowItems extends BaseAction implements UserAction {
         @Override
         public void execute(Input input, Tracker tracker) {
             Item[] items = tracker.findAll();
@@ -224,7 +224,7 @@ public class MenuTracker {
         }
     }
 
-    public static class EditItem extends Action implements UserAction {
+    public static class EditItem extends BaseAction implements UserAction {
         public EditItem(int key, String name) {
             super(key, name);
         }
@@ -243,7 +243,7 @@ public class MenuTracker {
         }
     }
 
-    public class ExitProgram extends Action implements UserAction {
+    public class ExitProgram extends BaseAction implements UserAction {
         @Override
         public void execute(Input input, Tracker tracker) {
             complete = true;
@@ -256,7 +256,7 @@ public class MenuTracker {
     }
 }
 
-class DeleteItem extends Action implements UserAction {
+class DeleteItem extends BaseAction implements UserAction {
     public DeleteItem(int key, String name) {
         super(key, name);
     }

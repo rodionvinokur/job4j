@@ -1,7 +1,7 @@
 package ru.job4j.track;
 
-public class Action {
-	protected Action(int key, String name) {
+public abstract class BaseAction {
+	protected BaseAction(int key, String name) {
 		this.key = key;
 		this.name = name;
 	}
