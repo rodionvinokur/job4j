@@ -14,23 +14,20 @@ public class ValidateInput extends ConsoleInput {
 
     @Override
     public int ask(String q, int[] range) {
-        System.out.println(q);
-        Scanner sc = new Scanner(System.in);
         int ret = -1;
         do {
+            q = super.ask(q);
             try {
-                if (!sc.hasNextInt()) {
-                   sc.nextLine();
-                   throw new MenuOutException("Введите целое число: ");
-                }
-                ret = Integer.parseInt(sc.nextLine());
+                ret = Integer.parseInt(q);
                 if (!inRange(ret, range)) {
                     throw new MenuOutException("Введите число из диапазона: " + Arrays.toString(range));
                 }
+            } catch (NumberFormatException e) {
+                q = "Введите целое число: ";
             } catch (MenuOutException e) {
-                System.out.println(e.getMessage());
+                q = e.getMessage();
                 ret = -1;
-                }
+            }
         } while (ret == -1);
         return ret;
     }
