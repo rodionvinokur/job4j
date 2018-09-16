@@ -18,9 +18,6 @@ public class Tracker {
     private Item[] items = null;
     private int position = 0;
 
-    public int getPosition() {
-        return position;
-    }
 
     public Item getItem(int position) {
         return items[position];
@@ -33,12 +30,6 @@ public class Tracker {
     public Tracker() {
         items = new Item[100];
     }
-
-    /**
-
-     * Указатель ячейки для новой заявки.
-     */
-
 
     /**
      * Метод реализаущий добавление заявки в хранилище
@@ -68,8 +59,7 @@ public class Tracker {
             int index = this.indexOf(id);
             if (index != -1) {
                 item.setId(id);
-                long time = new Date().getTime();
-                item.setCreated(time);
+                item.setCreated(findById(id).getCreated());
                 this.items[index] = item;
                 result = true;
             }

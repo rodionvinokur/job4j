@@ -1,7 +1,5 @@
 package ru.job4j.track;
 
-import java.util.Arrays;
-
 /**
  * ValidateInput.
  *
@@ -9,7 +7,7 @@ import java.util.Arrays;
  * @version 2.0
  * @since 1.0
  */
-public class ValidateInput implements Input {
+public class ValidateInput extends ConsoleInput {
     private Input input;
 
     public ValidateInput(Input input) {
@@ -20,12 +18,8 @@ public class ValidateInput implements Input {
     public int ask(String q, int[] range) {
         int ret = -1;
         do {
-            String str = this.ask(q);
             try {
-                ret = Integer.parseInt(str);
-                if (!inRange(ret, range)) {
-                    throw new MenuOutException("Введите число из диапазона: " + Arrays.toString(range));
-                }
+                ret = super.ask(q, range);
             } catch (NumberFormatException e) {
                 System.out.println("Введите целое число: ");
             } catch (MenuOutException e) {
@@ -34,17 +28,6 @@ public class ValidateInput implements Input {
             }
         } while (ret == -1);
         return ret;
-    }
-
-    public boolean inRange(int act, int[] range) {
-        boolean result = false;
-        for (int i : range) {
-            if (act == i) {
-                result = true;
-                break;
-            }
-        }
-        return result;
     }
 
     @Override
