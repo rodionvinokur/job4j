@@ -11,7 +11,7 @@ public abstract class BaseAction {
 	}
 
 	public String info() {
-		return name;
+		return String.format("%d. %s", this.key, this.name);
 	}
 
 	private int key;

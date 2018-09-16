@@ -65,10 +65,6 @@ public class MenuTracker {
         return complete;
     }
 
-    public static int getSHOW() {
-        return SHOW;
-    }
-
     /**
      * Конструктор.
      *
@@ -95,13 +91,13 @@ public class MenuTracker {
      * заявку по номеру.") ("5. Найти заявку по имени.") ("6. Выход из программы.")
      */
     public void fillActions() {
-        this.actions.add(this.new AddItem(ADD, ADD + ". Добавить новую заявку."));
-        this.actions.add(this.new ShowItems(SHOW, SHOW + ". Показать все заявки."));
-        this.actions.add(new MenuTracker.EditItem(EDIT, EDIT + ". Редактировать заявку."));
-        this.actions.add(new DeleteItem(DEL, DEL + ". Удалить заявку."));
-        this.actions.add(this.new FindItemById(FBYID, FBYID + ". Найти заявку по номеру."));
-        this.actions.add(this.new FindItemsByName(FBYNAME, FBYNAME + ". Найти заявку по имени."));
-        this.actions.add(new ExitProgram(EXIT, EXIT + ". Выход из программы."));
+        this.actions.add(this.new AddItem(ADD, "Добавить новую заявку."));
+        this.actions.add(this.new ShowItems(SHOW, "Показать все заявки."));
+        this.actions.add(new MenuTracker.EditItem(EDIT,"Редактировать заявку."));
+        this.actions.add(new DeleteItem(DEL,"Удалить заявку."));
+        this.actions.add(this.new FindItemById(FBYID, "Найти заявку по номеру."));
+        this.actions.add(this.new FindItemsByName(FBYNAME, "Найти заявку по имени."));
+        this.actions.add(new ExitProgram(EXIT, "Выход из программы."));
     }
 
     /**
@@ -117,7 +113,6 @@ public class MenuTracker {
         try {
             this.actions.get(key).execute(this.input, this.tracker);
         } catch (IndexOutOfBoundsException e) {
-
         }
     }
 
@@ -162,15 +157,6 @@ public class MenuTracker {
             String id = input.ask("Введите номер заявки :");
             Item item = tracker.findById(id);
             if (item != null) {
-                showItem(item);
-            }
-        }
-
-        /**
-         * Метод реализует отображение одной заявки.
-         */
-        private void showItem(Item item) {
-            if (item != null) {
                 System.out.println(item.toString());
             }
         }
@@ -183,7 +169,7 @@ public class MenuTracker {
             String name = input.ask("Введите имя заявки :");
             Item[] items = tracker.findByName(name);
             for (Item item : items) {
-                showItem(item);
+                System.out.println(item.toString());
             }
         }
 
@@ -191,14 +177,6 @@ public class MenuTracker {
             super(key, name);
         }
 
-        /**
-         * Метод реализует отображение одной заявки.
-         */
-        private void showItem(Item item) {
-            if (item != null) {
-                System.out.println(item.toString());
-            }
-        }
     }
 
     public class ShowItems extends BaseAction implements UserAction {
@@ -206,7 +184,7 @@ public class MenuTracker {
         public void execute(Input input, Tracker tracker) {
             Item[] items = tracker.findAll();
             for (Item item : items) {
-                showItem(item);
+                System.out.println(item.toString());
             }
         }
 

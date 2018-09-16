@@ -18,6 +18,6 @@ public class ConsoleInput implements Input {
 
     @Override
     public int ask(String q, int[] range) {
-        return new ValidateInput(this).ask(q, range);
+        return 0;//new ValidateInput(this).ask(q, range);
     }
 }
