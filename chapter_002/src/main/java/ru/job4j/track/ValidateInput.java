@@ -7,7 +7,7 @@ package ru.job4j.track;
  * @version 2.0
  * @since 1.0
  */
-public class ValidateInput extends ConsoleInput {
+public class ValidateInput implements Input {
     private Input input;
 
     public ValidateInput(Input input) {
@@ -19,7 +19,7 @@ public class ValidateInput extends ConsoleInput {
         int ret = -1;
         do {
             try {
-                ret = super.ask(q, range);
+                ret = this.input.ask(q, range);
             } catch (NumberFormatException e) {
                 System.out.println("Введите целое число: ");
             } catch (MenuOutException e) {

@@ -1,6 +1,6 @@
 package ru.job4j.track;
 
-public abstract class BaseAction {
+public abstract class BaseAction implements UserAction {
 	protected BaseAction(int key, String name) {
 		this.key = key;
 		this.name = name;

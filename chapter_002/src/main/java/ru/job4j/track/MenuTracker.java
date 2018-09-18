@@ -93,8 +93,8 @@ public class MenuTracker {
     public void fillActions() {
         this.actions.add(this.new AddItem(ADD, "Добавить новую заявку."));
         this.actions.add(this.new ShowItems(SHOW, "Показать все заявки."));
-        this.actions.add(new MenuTracker.EditItem(EDIT,"Редактировать заявку."));
-        this.actions.add(new DeleteItem(DEL,"Удалить заявку."));
+        this.actions.add(new MenuTracker.EditItem(EDIT, "Редактировать заявку."));
+        this.actions.add(new DeleteItem(DEL, "Удалить заявку."));
         this.actions.add(this.new FindItemById(FBYID, "Найти заявку по номеру."));
         this.actions.add(this.new FindItemsByName(FBYNAME, "Найти заявку по имени."));
         this.actions.add(new ExitProgram(EXIT, "Выход из программы."));
@@ -127,7 +127,7 @@ public class MenuTracker {
         }
     }
 
-    public class AddItem extends BaseAction implements UserAction {
+    public class AddItem extends BaseAction {
         public AddItem(int key, String name) {
             super(key, name);
         }
@@ -143,7 +143,7 @@ public class MenuTracker {
         }
     }
 
-    public class FindItemById extends BaseAction implements UserAction {
+    public class FindItemById extends BaseAction {
         public FindItemById(int key, String name) {
             super(key, name);
         }
@@ -162,7 +162,7 @@ public class MenuTracker {
         }
     }
 
-    public class FindItemsByName extends BaseAction implements UserAction {
+    public class FindItemsByName extends BaseAction {
         @Override
         public void execute(Input input, Tracker tracker) {
             System.out.println("------------- Поиск по имени заявки ----------------");
@@ -179,7 +179,7 @@ public class MenuTracker {
 
     }
 
-    public class ShowItems extends BaseAction implements UserAction {
+    public class ShowItems extends BaseAction {
         @Override
         public void execute(Input input, Tracker tracker) {
             Item[] items = tracker.findAll();
@@ -202,7 +202,7 @@ public class MenuTracker {
         }
     }
 
-    public static class EditItem extends BaseAction implements UserAction {
+    public static class EditItem extends BaseAction {
         public EditItem(int key, String name) {
             super(key, name);
         }
@@ -221,7 +221,7 @@ public class MenuTracker {
         }
     }
 
-    public class ExitProgram extends BaseAction implements UserAction {
+    public class ExitProgram extends BaseAction {
         @Override
         public void execute(Input input, Tracker tracker) {
             complete = true;
@@ -234,7 +234,7 @@ public class MenuTracker {
     }
 }
 
-class DeleteItem extends BaseAction implements UserAction {
+class DeleteItem extends BaseAction {
     public DeleteItem(int key, String name) {
         super(key, name);
     }
