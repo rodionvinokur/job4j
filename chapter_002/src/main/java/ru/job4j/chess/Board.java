@@ -15,27 +15,26 @@ import ru.job4j.chess.figure.Figure;
  */
 public class Board implements IBoard {
 
-    public boolean move(Cell source, Cell dest) throws ImpossibleMoveException, OccupiedWayException, FigureNotFoundException {
-        int index = findByCell(source);
-        if (index != -1) {
-            figures[index].way(dest);
-            Figure tmp = figures[index].copy(dest);
-            this.remove(index);
-            this.add(tmp);
-        } else {
-            throw new FigureNotFoundException("В этой ячейке нет фигуры: " + source);
-        }
-        return true;
-    }
+    private Figure[] figures;
+    private int position;
+    private final static int SIZE = 32;
 
     public Board() {
         this.figures = new Figure[SIZE];
         this.position = 0;
     }
 
-    private Figure[] figures;
-    private int position;
-    private final static int SIZE = 32;
+    public boolean move(Cell source, Cell dest) throws ImpossibleMoveException, OccupiedWayException, FigureNotFoundException {
+        int index = findByCell(source);
+        if (index == -1) {
+            throw new FigureNotFoundException("В этой ячейке нет фигуры: " + source);
+        }
+        figures[index].way(figures[index].position(), dest);
+        Figure tmp = figures[index].copy(dest);
+        this.remove(index);
+        this.add(tmp);
+        return true;
+    }
 
     public boolean add(Figure figure) throws OccupiedWayException {
         if (this.isBusy(figure.position())) {
@@ -50,6 +49,13 @@ public class Board implements IBoard {
 
     public boolean isBusy(Cell cell) {
         return findByCell(cell) != -1;
+    }
+
+    public void clean() {
+        for (int position = 0; position != this.figures.length; position++) {
+            this.figures[position] = null;
+        }
+        this.position = 0;
     }
 
     private int findByCell(Cell cell) {
@@ -68,12 +74,4 @@ public class Board implements IBoard {
             figures[--position] = null;
         }
     }
-
-    public void clean() {
-        for (int position = 0; position != this.figures.length; position++) {
-            this.figures[position] = null;
-        }
-        this.position = 0;
-    }
-
 }

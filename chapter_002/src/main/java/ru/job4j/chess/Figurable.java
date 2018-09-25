@@ -5,6 +5,7 @@ import ru.job4j.chess.cell.Cell;
 import ru.job4j.chess.exception.ImpossibleMoveException;
 import ru.job4j.chess.exception.OccupiedWayException;
 import ru.job4j.chess.figure.Figure;
+
 /**
  * Figurable
  *
@@ -13,6 +14,7 @@ import ru.job4j.chess.figure.Figure;
  * @since 1.0
  */
 public interface Figurable {
-	Figure copy(Cell dest)  throws ImpossibleMoveException;
-	Cell[] way(Cell source, Cell dest) throws ImpossibleMoveException, OccupiedWayException;
+    Figure copy(Cell dest) throws ImpossibleMoveException;
+
+    Cell[] way(Cell source, Cell dest) throws ImpossibleMoveException, OccupiedWayException;
 }

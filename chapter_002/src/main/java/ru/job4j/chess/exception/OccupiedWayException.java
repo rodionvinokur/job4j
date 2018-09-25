@@ -8,7 +8,6 @@ package ru.job4j.chess.exception;
  * @since 1.0
  */
 public class OccupiedWayException extends Exception {
-
 	public OccupiedWayException(String message) {
 		super(message);
 	}
