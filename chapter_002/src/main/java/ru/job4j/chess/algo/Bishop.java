@@ -17,19 +17,17 @@ public class Bishop extends MoveAlgo {
     }
 
     @Override
-    public Cell[] wayAlgo(Cell source, Cell dest) throws ImpossibleMoveException, OccupiedWayException {
-        int deltaX = dest.x - source.x;
-        int deltaY = dest.y - source.y;
-        if (Math.abs(deltaX) != Math.abs(deltaY) || deltaX == 0) {
+    public Cell[] wayAlgo(Cell source, Cell dest) throws ImpossibleMoveException {
+        int koefX = Integer.compare(dest.x, source.x);
+        int koefY = Integer.compare(dest.y, source.y);
+        if (Math.abs(koefX) != Math.abs(koefY) || koefX == 0) {
             throw new ImpossibleMoveException("Ход невозможен");
         }
-        Cell[] cells = new Cell[Math.abs(deltaX)];
-        for (int i = 1; i < cells.length + 1; i++) {
-            int tmpX = source.x + i * (deltaX > 0 ? 1 : -1);
-            int tmpY = source.y + i * (deltaY > 0 ? 1 : -1);
-            Cell tmp = Cell.A1.getCell(tmpX, tmpY);
+        Cell[] cells = new Cell[Math.abs(dest.x - source.x)];
+        for (int i = 1; i <= cells.length; i++) {
+            Cell tmp = Cell.getCell(source.x + i * koefX, source.y + i * koefY);
             if (ib.isBusy(tmp)) {
-                throw new OccupiedWayException("Ход невозможен, путь занят");
+                return new Cell[0];
             }
             cells[i - 1] = tmp;
         }

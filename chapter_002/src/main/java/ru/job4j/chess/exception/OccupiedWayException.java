@@ -7,7 +7,7 @@ package ru.job4j.chess.exception;
  * @version 1.0
  * @since 1.0
  */
-public class OccupiedWayException extends Exception {
+public class OccupiedWayException extends RuntimeException {
 	public OccupiedWayException(String message) {
 		super(message);
 	}

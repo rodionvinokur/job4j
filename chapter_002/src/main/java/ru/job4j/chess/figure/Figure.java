@@ -28,7 +28,7 @@ public abstract class Figure implements Figurable {
     }
 
     @Override
-    public Cell[] way(Cell source, Cell dest) throws ImpossibleMoveException, OccupiedWayException {
+    public Cell[] way(Cell source, Cell dest) throws ImpossibleMoveException {
         return fig.way(source, dest);
     }
 

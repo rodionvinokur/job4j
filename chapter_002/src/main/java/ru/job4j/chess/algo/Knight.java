@@ -19,14 +19,14 @@ public class Knight extends MoveAlgo implements Figurable {
         super(ib);
     }
 
-    public Cell[] wayAlgo(Cell source, Cell dest) throws ImpossibleMoveException, OccupiedWayException {
+    public Cell[] wayAlgo(Cell source, Cell dest) throws ImpossibleMoveException {
         int deltaX = dest.x - source.x;
         int deltaY = dest.y - source.y;
         if (!((Math.abs(deltaX) == 2 && Math.abs(deltaY) == 1) || (Math.abs(deltaX) == 1 && Math.abs(deltaY) == 2))) {
             throw new ImpossibleMoveException("Ход невозможен");
         }
         if (ib.isBusy(dest)) {
-            throw new OccupiedWayException("Ход невозможен, путь занят");
+            return new Cell[0];
         }
         return new Cell[]{dest};
     }

@@ -15,7 +15,7 @@ public enum Cell {
         this.y = y;
     }
 
-    public Cell getCell(int x, int y) {
+    public static Cell getCell(int x, int y) {
         Cell result = null;
         for (int i = 0; i < Cell.values().length; i++) {
             if (Cell.values()[i].x == x && Cell.values()[i].y == y) {

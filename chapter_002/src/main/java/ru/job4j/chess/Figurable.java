@@ -16,5 +16,5 @@ import ru.job4j.chess.figure.Figure;
 public interface Figurable {
     Figure copy(Cell dest) throws ImpossibleMoveException;
 
-    Cell[] way(Cell source, Cell dest) throws ImpossibleMoveException, OccupiedWayException;
+    Cell[] way(Cell source, Cell dest) throws ImpossibleMoveException;
 }

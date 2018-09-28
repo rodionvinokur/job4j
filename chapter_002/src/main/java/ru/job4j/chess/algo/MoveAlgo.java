@@ -29,13 +29,12 @@ public abstract class MoveAlgo implements Figurable {
      * @param dest
      * @return
      * @throws ImpossibleMoveException
-     * @throws OccupiedWayException
      */
     @Override
-    public Cell[] way(Cell source, Cell dest) throws ImpossibleMoveException, OccupiedWayException {
+    public Cell[] way(Cell source, Cell dest) throws ImpossibleMoveException {
         try {
             return wayAlgo(source, dest);
-        } catch (ImpossibleMoveException | OccupiedWayException e) {
+        } catch (ImpossibleMoveException e) {
             if (this.getFig() != null) {
                 return this.getFig().way(source, dest);
             }

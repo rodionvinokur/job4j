@@ -19,16 +19,16 @@ public class PawnBlack extends MoveAlgo implements Figurable {
         super(ib);
     }
 
-    public Cell[] wayAlgo(Cell source, Cell dest) throws ImpossibleMoveException, OccupiedWayException {
+    public Cell[] wayAlgo(Cell source, Cell dest) throws ImpossibleMoveException {
         int deltaX = dest.x - source.x;
         int deltaY = dest.y - source.y;
         if (!(Math.abs(deltaX) == 0 && (deltaY == -1 || (deltaY == -2 && source.y == 6)))) {
             throw new ImpossibleMoveException("Ход невозможен");
         }
-        if (ib.isBusy(dest) || (deltaY == -2 && ib.isBusy(Cell.A1.getCell(dest.x, dest.y + 1)))) {
-            throw new OccupiedWayException("Ход невозможен, путь занят");
+        if (ib.isBusy(dest) || (deltaY == -2 && ib.isBusy(Cell.getCell(dest.x, dest.y + 1)))) {
+            return new Cell[0];
         }
-        return deltaY == -1 ? new Cell[]{dest} : new Cell[]{Cell.A1.getCell(dest.x, dest.y + 1), dest};
+        return deltaY == -1 ? new Cell[]{dest} : new Cell[]{Cell.getCell(dest.x, dest.y + 1), dest};
     }
 }
 

@@ -18,19 +18,17 @@ public class Rook extends MoveAlgo {
     }
 
     @Override
-    public Cell[] wayAlgo(Cell source, Cell dest) throws ImpossibleMoveException, OccupiedWayException {
-        int deltaX = dest.x - source.x;
-        int deltaY = dest.y - source.y;
-        if (!(Math.abs(deltaX) == 0 ^ Math.abs(deltaY) == 0)) {
+    public Cell[] wayAlgo(Cell source, Cell dest) throws ImpossibleMoveException {
+        int koefX = Integer.compare(dest.x, source.x);
+        int koefY = Integer.compare(dest.y, source.y);
+        if (!(Math.abs(koefX) == 0 ^ Math.abs(koefY) == 0)) {
             throw new ImpossibleMoveException("Ход невозможен");
         }
-        Cell[] cells = new Cell[Math.abs(deltaX) + Math.abs(deltaY)];
-        for (int i = 1; i < cells.length + 1; i++) {
-            int tmpX = source.x + i * (deltaX > 0 ? 1 : deltaX == 0 ? 0 : -1);
-            int tmpY = source.y + i * (deltaY > 0 ? 1 : deltaY == 0 ? 0 : -1);
-            Cell tmp = Cell.A1.getCell(tmpX, tmpY);
+        Cell[] cells = new Cell[Math.abs(dest.x - source.x) + Math.abs(dest.y - source.y)];
+        for (int i = 1; i <= cells.length; i++) {
+            Cell tmp = Cell.getCell(source.x + i * koefX, source.y + i * koefY);
             if (ib.isBusy(tmp)) {
-                throw new OccupiedWayException("Ход невозможен, путь занят");
+                return new Cell[0];
             }
             cells[i - 1] = tmp;
         }

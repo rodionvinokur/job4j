@@ -21,18 +21,18 @@ public class Board implements IBoard {
 
     public Board() {
         this.figures = new Figure[SIZE];
-        this.position = 0;
-    }
+   }
 
     public boolean move(Cell source, Cell dest) throws ImpossibleMoveException, OccupiedWayException, FigureNotFoundException {
         int index = findByCell(source);
         if (index == -1) {
             throw new FigureNotFoundException("В этой ячейке нет фигуры: " + source);
         }
-        figures[index].way(figures[index].position(), dest);
-        Figure tmp = figures[index].copy(dest);
-        this.remove(index);
-        this.add(tmp);
+        Cell[] steps = figures[index].way(figures[index].position(), dest);
+        if (steps.length == 0) {
+            throw new OccupiedWayException("Путь занят.");
+        }
+        figures[index] = figures[index].copy(dest);
         return true;
     }
 
@@ -66,12 +66,5 @@ public class Board implements IBoard {
             }
         }
         return index;
-    }
-
-    private void remove(int index) {
-        if (index != -1) {
-            System.arraycopy(figures, index + 1, figures, index, position - index - 1);
-            figures[--position] = null;
-        }
     }
 }
