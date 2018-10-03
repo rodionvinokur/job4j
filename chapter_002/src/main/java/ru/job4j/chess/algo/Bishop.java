@@ -24,12 +24,8 @@ public class Bishop extends MoveAlgo {
             throw new ImpossibleMoveException("Ход невозможен");
         }
         Cell[] cells = new Cell[Math.abs(dest.x - source.x)];
-        for (int i = 1; i <= cells.length; i++) {
-            Cell tmp = Cell.getCell(source.x + i * koefX, source.y + i * koefY);
-            if (ib.isBusy(tmp)) {
-                return new Cell[0];
-            }
-            cells[i - 1] = tmp;
+        for (int i = 1; i < cells.length + 1; i++) {
+            cells[i - 1] = Cell.getCell(source.x + i * koefX, source.y + i * koefY);
         }
         return cells;
     }

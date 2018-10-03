@@ -26,9 +26,6 @@ public class King extends MoveAlgo implements Figurable {
                 || ((Math.abs(koefX) <= 1 && Math.abs(koefY) == 1)))) {
             throw new ImpossibleMoveException("Ход невозможен, путь занят");
         }
-        if (ib.isBusy(dest)) {
-            return new Cell[0];
-        }
         return new Cell[]{dest};
     }
 }

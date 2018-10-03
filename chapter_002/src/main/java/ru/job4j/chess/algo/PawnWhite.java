@@ -25,9 +25,6 @@ public class PawnWhite extends MoveAlgo implements Figurable {
         if (!(Math.abs(deltaX) == 0 && (deltaY == 1 || (deltaY == 2 && source.y == 1)))) {
             throw new ImpossibleMoveException("Ход невозможен");
         }
-        if (ib.isBusy(dest) || (deltaY == 2 && ib.isBusy(Cell.getCell(dest.x, dest.y - 1)))) {
-            return new Cell[0];
-        }
         return deltaY == 1 ? new Cell[]{dest} : new Cell[]{Cell.getCell(dest.x, dest.y - 1), dest};
     }
 }

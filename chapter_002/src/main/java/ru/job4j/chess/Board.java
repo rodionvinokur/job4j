@@ -29,8 +29,10 @@ public class Board implements IBoard {
             throw new FigureNotFoundException("В этой ячейке нет фигуры: " + source);
         }
         Cell[] steps = figures[index].way(figures[index].position(), dest);
-        if (steps.length == 0) {
-            throw new OccupiedWayException("Путь занят.");
+        for (Cell cellStep : steps) {
+            if (isBusy(cellStep)) {
+                throw new OccupiedWayException("Путь занят.");
+            }
         }
         figures[index] = figures[index].copy(dest);
         return true;

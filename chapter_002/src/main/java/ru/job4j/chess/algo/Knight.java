@@ -25,9 +25,6 @@ public class Knight extends MoveAlgo implements Figurable {
         if (!((Math.abs(deltaX) == 2 && Math.abs(deltaY) == 1) || (Math.abs(deltaX) == 1 && Math.abs(deltaY) == 2))) {
             throw new ImpossibleMoveException("Ход невозможен");
         }
-        if (ib.isBusy(dest)) {
-            return new Cell[0];
-        }
         return new Cell[]{dest};
     }
 }
