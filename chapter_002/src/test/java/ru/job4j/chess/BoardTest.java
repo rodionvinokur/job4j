@@ -67,8 +67,6 @@ public class BoardTest {
             board.move(cellTarget, cellOccup);
         } catch (OccupiedWayException m) {
             result = true;
-        } catch (ImpossibleMoveException | FigureNotFoundException m) {
-
         }
         assertTrue(board.isBusy(cellTarget));
         assertTrue(result);
@@ -78,9 +76,7 @@ public class BoardTest {
         boolean result = false;
         try {
             board.move(source, dest);
-        } catch (OccupiedWayException | ImpossibleMoveException m) {
-
-        } catch (FigureNotFoundException m) {
+        }  catch (FigureNotFoundException m) {
             result = true;
         }
         assertFalse(board.isBusy(source) || board.isBusy(dest));

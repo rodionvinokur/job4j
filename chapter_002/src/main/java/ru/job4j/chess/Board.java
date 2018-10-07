@@ -62,9 +62,10 @@ public class Board implements IBoard {
 
     private int findByCell(Cell cell) {
         int index = -1;
-        for (int i = 0; i < position && index == -1; i++) {
+        for (int i = 0; i < position; i++) {
             if (figures[i].position().equals(cell)) {
                 index = i;
+                break;
             }
         }
         return index;
