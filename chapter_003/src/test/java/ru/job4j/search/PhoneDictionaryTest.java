@@ -5,6 +5,13 @@ import java.util.List;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+/**
+ * PhoneDictionaryTest
+ *
+ * @author Rodion V.
+ * @version 1.0
+ * @since 1.0
+ */
 public class PhoneDictionaryTest {
     @Test
     public void whenFindByName() {
