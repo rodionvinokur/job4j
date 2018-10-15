@@ -22,13 +22,13 @@ public class PriorityQueue {
      * @param task задача
      */
     public void put(Task task) {
-        tasks.add(task);
-        Collections.sort(tasks, new Comparator<Task>() {
-            @Override
-            public int compare(Task o1, Task o2) {
-                return Integer.compare(o1.getPriority(), o2.getPriority());
+        for (Task taskInList : tasks) {
+            if (taskInList.comparePriorityTo(task) >= 0) {
+                tasks.add(tasks.indexOf(taskInList), task);
+                return;
             }
-        });
+        }
+        tasks.add(task);
     }
 
     public Task take() {

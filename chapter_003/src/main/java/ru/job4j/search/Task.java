@@ -24,5 +24,9 @@ public class Task {
     public int getPriority() {
         return priority;
     }
+
+    public int comparePriorityTo(Task o) {
+        return Integer.compare(this.getPriority(), o.getPriority());
+    }
 }
 
