@@ -1,6 +1,7 @@
 package ru.job4j.list;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -22,10 +23,9 @@ public class ConvertMatrix2List {
             throw new NullPointerException("array is null");
         }
         List<Integer> list = new ArrayList<>();
-        for (int indexRow = 0; indexRow < array.length; indexRow++) {
-            for (int indexColumn = 0; indexColumn < array[indexRow].length;
-                 indexColumn++) {
-                list.add(array[indexRow][indexColumn]);
+        for (int[] element : array) {
+            for (int subElement : element) {
+                list.add(subElement);
             }
         }
         return list;
