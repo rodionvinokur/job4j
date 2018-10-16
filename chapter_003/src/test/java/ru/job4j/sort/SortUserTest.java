@@ -37,4 +37,36 @@ public class SortUserTest {
         assertThat(Arrays.toString(usrArray),
                 is("[[6], [9], [13], [16], [60], [65], [99], [100]]"));
     }
+
+    @Test
+    public void sortListByNameLength() {
+        List<User> lUser = new ArrayList<>();
+        lUser.add(new User("Barton J.", 56));
+        lUser.add(new User("Boris M.", 60));
+        lUser.add(new User("Lomonosov M.", 250));
+        SortUser su = new SortUser();
+        User[] usrArray = new User[3];
+        su.sortNameLength(lUser).toArray(usrArray);
+        assertThat(Arrays.toString(usrArray),
+                is("[[60], [56], [250]]"));
+    }
+
+    @Test
+    public void sortListByAll() {
+        List<User> lUser = new ArrayList<>();
+        lUser.add(new User("Сергей", 25));
+        lUser.add(new User("Иван", 30));
+        lUser.add(new User("Сергей", 20));
+        lUser.add(new User("Иван", 25));
+        SortUser su = new SortUser();
+        User[] usrArray = new User[4];
+        su.sortByAllFields(lUser).toArray(usrArray);
+        assertThat(Arrays.toString(usrArray),
+                is("[[25], [30], [20], [25]]"));
+        assertThat(lUser.get(0).getName()
+                        + lUser.get(1).getName()
+                        + lUser.get(2).getName()
+                        + lUser.get(3).getName(),
+                is("ИванИванСергейСергей"));
+    }
 }
