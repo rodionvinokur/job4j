@@ -1,5 +1,6 @@
 package ru.job4j.track;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -18,16 +19,16 @@ public class ConsoleInput implements Input {
     }
 
     @Override
-    public int ask(String q, int[] range) throws MenuOutException, NumberFormatException {
+    public int ask(String q, List<Integer> range) throws MenuOutException, NumberFormatException {
         String str = this.ask(q);
         int ret = Integer.parseInt(str);
         if (!inRange(ret, range)) {
-            throw new MenuOutException("Введите число из диапазона: " + Arrays.toString(range));
+            throw new MenuOutException("Введите число из диапазона: " + range);
         }
         return ret;
     }
 
-    public boolean inRange(int act, int[] range) {
+    public boolean inRange(int act, List<Integer> range) {
         boolean result = false;
         for (int i : range) {
             if (act == i) {

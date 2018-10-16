@@ -52,11 +52,10 @@ public class MenuTracker {
         return actions;
     }
 
-    public int[] range() {
-        int[] range = new int[actions.size()];
-        int i = 0;
+    public List<Integer> range() {
+        List<Integer> range = new ArrayList<>();
         for (UserAction act : actions) {
-            range[i++] = act.key();
+            range.add(act.key());
         }
         return range;
     }
@@ -167,7 +166,7 @@ public class MenuTracker {
         public void execute(Input input, Tracker tracker) {
             System.out.println("------------- Поиск по имени заявки ----------------");
             String name = input.ask("Введите имя заявки :");
-            Item[] items = tracker.findByName(name);
+            List<Item> items = tracker.findByName(name);
             for (Item item : items) {
                 System.out.println(item.toString());
             }
@@ -182,7 +181,7 @@ public class MenuTracker {
     public class ShowItems extends BaseAction {
         @Override
         public void execute(Input input, Tracker tracker) {
-            Item[] items = tracker.findAll();
+            List<Item> items = tracker.findAll();
             for (Item item : items) {
                 System.out.println(item.toString());
             }

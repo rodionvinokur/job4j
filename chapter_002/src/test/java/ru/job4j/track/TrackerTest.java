@@ -4,6 +4,8 @@ import org.junit.Test;
 import ru.job4j.track.Item;
 import ru.job4j.track.Tracker;
 
+import java.util.List;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
@@ -18,7 +20,7 @@ public class TrackerTest {
 
     @Test
     public void whenAddItemNullThenNull() {
-        Tracker track  = new Tracker(5);
+        Tracker track  = new Tracker();
         Item expected = null;
         Item result = track.add(null);
         assertNull(result);
@@ -26,7 +28,7 @@ public class TrackerTest {
 
     @Test
     public void whenAddItemNotNullThenItem() {
-        Tracker track  = new Tracker(5);
+        Tracker track  = new Tracker();
         Item expected = new Item("Test", "Test");
         Item result = track.add(expected);
         assertThat(result.getName(), is("Test"));
@@ -36,7 +38,7 @@ public class TrackerTest {
 
     @Test
     public void whenOneOfParamNullAddItemThenItem() {
-        Tracker track  = new Tracker(5);
+        Tracker track  = new Tracker();
         Item expected = new Item("Test", null);
         Item result = track.add(expected);
         assertNull(result.getDesc());
@@ -45,7 +47,7 @@ public class TrackerTest {
 
     @Test
     public void whenReplaceItemThenItemChange() {
-        Tracker track  = new Tracker(5);
+        Tracker track  = new Tracker();
         Item exp1 = new Item("Test1", "Desc1");
         Item exp2 = new Item("Test2", "Desc2");
         Item exp3 = new Item("Test3", "Desc3");
@@ -53,25 +55,25 @@ public class TrackerTest {
         track.add(exp2);
         String id = exp1.getId();
         track.replace(id, exp3);
-        assertThat(track.getItem(0).getName(), is("Test3"));
+        assertThat(track.getItems().get(0).getName(), is("Test3"));
     }
     @Test
     public void whenfindAllItem3ThenSize3() {
-        Tracker track  = new Tracker(5);
+        Tracker track  = new Tracker();
         Item exp1 = new Item("Test1", "Desc1");
         Item exp2 = new Item("Test2", "Desc2");
         Item exp3 = new Item("Test3", "Desc3");
         track.add(exp1);
         track.add(exp2);
         track.add(exp3);
-        int result = track.findAll().length;
+        int result = track.findAll().size();
         assertThat(result, is(3));
     }
 
     @Test
     public void whenfindAllItem0ThenSize0() {
         Tracker track  = new Tracker();
-        int result = track.findAll().length;
+        int result = track.findAll().size();
         assertThat(result, is(0));
     }
 
@@ -111,8 +113,8 @@ public class TrackerTest {
         track.add(exp3);
         track.add(exp4);
         track.add(exp5);
-        Item[] result = track.findByName("Test");
-        assertThat(result.length, is(2));
+        List<Item> result = track.findByName("Test");
+        assertThat(result.size(), is(2));
     }
 
     @Test
@@ -130,8 +132,8 @@ public class TrackerTest {
         track.add(exp5);
         String id = exp5.getId();
         track.delete(id);
-        Item[] result = track.findAll();
-        assertThat(track.getItem(result.length - 1).getId(), is(exp4.getId()));
+        List<Item> result = track.findAll();
+        assertThat(track.getItems().get(result.size() - 1).getId(), is(exp4.getId()));
     }
 
     @Test
@@ -144,8 +146,8 @@ public class TrackerTest {
         Item exp4 = new Item("Test5", "Desc5");
         String id = exp5.getId();
         track.delete(id);
-        Item[] result = track.findAll();
-        assertThat(result.length, is(0));
+        List<Item> result = track.findAll();
+        assertThat(result.size(), is(0));
     }
 
     @Test
@@ -163,8 +165,8 @@ public class TrackerTest {
         track.add(exp5);
         String id = exp4.getId();
         track.delete(id);
-        Item[] result = track.findAll();
-        String idResult = track.getItem(result.length - 1).getId();
+        List<Item> result = track.findAll();
+        String idResult = track.getItems().get(result.size() - 1).getId();
         String idExp = exp5.getId();
         assertThat(idResult, is(idExp));
     }

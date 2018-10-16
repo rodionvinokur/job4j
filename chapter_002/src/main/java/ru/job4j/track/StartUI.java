@@ -40,7 +40,7 @@ public class StartUI {
         menu.fillActions();
         do {
             menu.show();
-            menu.select(input.ask("Введите номер пункта: " + Arrays.toString(menu.range()), menu.range()));
+            menu.select(input.ask("Введите номер пункта: " + menu.range(), menu.range()));
         } while (!menu.isComplete());
     }
 
