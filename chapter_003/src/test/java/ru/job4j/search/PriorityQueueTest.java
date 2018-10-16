@@ -21,4 +21,18 @@ public class PriorityQueueTest {
         Task result = queue.take();
         assertThat(result.getDesc(), is("urgent"));
     }
+    @Test
+    public void whenNumersPriority() {
+        PriorityQueue queue = new PriorityQueue();
+        queue.put(new Task("32", 32));
+        queue.put(new Task("-1", -1));
+        queue.put(new Task("0", 0));
+        queue.put(new Task("3", 3));
+        queue.put(new Task("1", 1));
+        queue.put(new Task("2", 2));
+        queue.put(new Task("12", 12));
+        queue.put(new Task("-3", -3));
+        Task result = queue.take();
+        assertThat(result.getDesc(), is("-3"));
+    }
 }
