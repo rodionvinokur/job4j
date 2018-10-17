@@ -1,4 +1,4 @@
-# job4j
-http://job4j.ru
-Цели успешное овладение знанием и навыками работы на языке программирования JAVA на уровне Стажер.
-~Дата завершения курса начало октября 2018.
+[![Build Status](https://travis-ci.org/rodionvinokur/job4j.svg?branch=master)](https://travis-ci.org/rodionvinokur/job4j)
+[![codecov](https://codecov.io/gh/rodionvinokur/job4j/branch/master/graph/badge.svg)](https://codecov.io/gh/rodionvinokur/job4j)
+
+#junior
