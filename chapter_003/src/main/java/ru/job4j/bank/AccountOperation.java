@@ -61,21 +61,28 @@ public class AccountOperation implements IAccountOp {
                 && (!srcRequisite.equals(dstRequisite)
                 || (srcPassport.equals(dstPassport)
                 && !srcRequisite.equals(dstRequisite)))) {
-            List<Account> srcListAccounts = getUserAccounts(srcPassport);
-            Account srcUserAccount = new Account(srcRequisite);
-            List<Account> dstListAccounts = getUserAccounts(dstPassport);
-            Account dstUserAccount = new Account(dstRequisite);
-            if (srcListAccounts != null && dstListAccounts != null) {
-                Account srcAcc = srcListAccounts.get(srcListAccounts.indexOf(srcUserAccount));
-                if (srcAcc.getValue() >= amount) {
-                    Account dstAcc = dstListAccounts.get(dstListAccounts.indexOf(dstUserAccount));
+            Account srcAcc = getUserAccount(srcPassport, srcRequisite);
+            if (srcAcc != null && srcAcc.getValue() >= amount) {
+                Account dstAcc = getUserAccount(dstPassport, dstRequisite);
+                if (dstAcc != null) {
                     srcAcc.setValue(srcAcc.getValue() - amount);
                     dstAcc.setValue(dstAcc.getValue() + amount);
                     result = true;
                 }
             }
-
         }
         return result;
+    }
+
+    private Account getUserAccount(String userPassport, String accountRequisite) {
+        if (userPassport == null || accountRequisite == null) {
+            return null;
+        }
+        List<Account> listAccounts = getUserAccounts(userPassport);
+        Account userAccount = new Account(accountRequisite);
+        int index = listAccounts.indexOf(userAccount);
+        return index != -1
+                ? listAccounts.get(index)
+                : null;
     }
 }
