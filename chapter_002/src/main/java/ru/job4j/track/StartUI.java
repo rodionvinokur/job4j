@@ -1,6 +1,7 @@
 package ru.job4j.track;
 
 import java.util.Arrays;
+import java.util.function.Consumer;
 
 /**
  * StartUI.
@@ -36,10 +37,11 @@ public class StartUI {
      * Основой цикл программы.
      */
     public void init() {
+        Consumer<MenuTracker> show = MenuTracker::show;
         MenuTracker menu = new MenuTracker(this.input, this.tracker);
         menu.fillActions();
         do {
-            menu.show();
+            show.accept(menu);
             menu.select(input.ask("Введите номер пункта: " + menu.range(), menu.range()));
         } while (!menu.isComplete());
     }
