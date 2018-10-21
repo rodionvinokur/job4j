@@ -1,6 +1,7 @@
 package ru.job4j.track;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Tracker.
@@ -92,16 +93,9 @@ public class Tracker {
      * @return
      */
     public List<Item> findByName(String name) {
-        List<Item> tmp = new ArrayList<>();
-        if (name != null) {
-            int position = 0;
-            for (int index = 0; index < items.size(); index++) {
-                if (this.items.get(index).getName().equals(name)) {
-                    tmp.add(this.items.get(index));
-                }
-            }
-        }
-        return tmp;
+        return name == null
+                ? null
+                : items.stream().filter((item) -> item.getName().equals(name)).collect(Collectors.toList());
     }
 
     /**
@@ -111,14 +105,9 @@ public class Tracker {
      * @return
      */
     public Item findById(String id) {
-        Item item = null;
-        if (id != null) {
-            int index = this.indexOf(id);
-            if (index != -1) {
-                item = this.items.get(index);
-            }
-        }
-        return item;
+        return id == null
+                ? null
+                : items.stream().filter((item) -> item.getId().equals(id)).reduce((acc, x) -> x).orElse(null);
     }
 
     /**
