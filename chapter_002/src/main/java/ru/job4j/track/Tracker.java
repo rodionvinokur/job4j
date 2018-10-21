@@ -88,7 +88,7 @@ public class Tracker {
 
     /**
      * Метод реализует поиск заявки по имени.
-     *
+     *как работает map stream java
      * @param name
      * @return
      */
