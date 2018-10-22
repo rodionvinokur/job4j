@@ -22,7 +22,7 @@ public class PawnWhite extends MoveAlgo implements Figurable {
     public Cell[] wayAlgo(Cell source, Cell dest) throws ImpossibleMoveException {
         int deltaX = dest.x - source.x;
         int deltaY = dest.y - source.y;
-        if (!(Math.abs(deltaX) == 0 && (deltaY == 1 || (deltaY == 2 && source.y == 1)))) {
+        if (!(deltaX == 0 && (deltaY == 1 || (deltaY == 2 && source.y == 1)))) {
             throw new ImpossibleMoveException("Ход невозможен");
         }
         return deltaY == 1 ? new Cell[]{dest} : new Cell[]{Cell.getCell(dest.x, dest.y - 1), dest};

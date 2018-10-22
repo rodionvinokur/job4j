@@ -21,7 +21,7 @@ public class Rook extends MoveAlgo {
     public Cell[] wayAlgo(Cell source, Cell dest) throws ImpossibleMoveException {
         int koefX = Integer.compare(dest.x, source.x);
         int koefY = Integer.compare(dest.y, source.y);
-        if (!(Math.abs(koefX) == 0 ^ Math.abs(koefY) == 0)) {
+        if (!(koefX == 0 ^ koefY == 0)) {
             throw new ImpossibleMoveException("Ход невозможен");
         }
         Cell[] cells = new Cell[Math.abs(dest.x - source.x) + Math.abs(dest.y - source.y)];
