@@ -54,9 +54,7 @@ public class MenuTracker {
 
     public List<Integer> range() {
         List<Integer> range = new ArrayList<>();
-        for (UserAction act : actions) {
-            range.add(act.key());
-        }
+        actions.stream().forEach(x -> range.add(x.key()));
         return range;
     }
 
@@ -119,11 +117,8 @@ public class MenuTracker {
      * Метод выводит на экран меню.
      */
     public void show() {
-        for (UserAction action : this.actions) {
-            if (action != null) {
-                System.out.println(action.info());
-            }
-        }
+        this.actions.stream().filter(x -> x != null)
+                .map(x -> x.info()).forEach(System.out::println);
     }
 
     public class AddItem extends BaseAction {
@@ -166,10 +161,7 @@ public class MenuTracker {
         public void execute(Input input, Tracker tracker) {
             System.out.println("------------- Поиск по имени заявки ----------------");
             String name = input.ask("Введите имя заявки :");
-            List<Item> items = tracker.findByName(name);
-            for (Item item : items) {
-                System.out.println(item.toString());
-            }
+            tracker.findByName(name).stream().forEach(System.out::println);
         }
 
         public FindItemsByName(int key, String name) {
@@ -181,10 +173,7 @@ public class MenuTracker {
     public class ShowItems extends BaseAction {
         @Override
         public void execute(Input input, Tracker tracker) {
-            List<Item> items = tracker.findAll();
-            for (Item item : items) {
-                System.out.println(item.toString());
-            }
+            tracker.findAll().stream().forEach(System.out::println);
         }
 
         public ShowItems(int key, String name) {

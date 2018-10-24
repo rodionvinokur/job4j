@@ -43,11 +43,11 @@ public class Tracker {
      */
     public boolean replace(String id, Item item) {
         boolean result = false;
-        if (id != null) {
-            int index = this.indexOf(id);
+        if (id != null && item != null) {
+            item.setId(id);
+            int index = this.items.indexOf(item);
+            item.setCreated(findById(id).getCreated());
             if (index != -1) {
-                item.setId(id);
-                item.setCreated(findById(id).getCreated());
                 this.items.set(index, item);
                 result = true;
             }
@@ -61,15 +61,14 @@ public class Tracker {
      * @param id
      */
     public boolean delete(String id) {
-        boolean result = false;
-        if (id != null) {
-            int index = this.indexOf(id);
-            if (index != -1) {
-                items.remove(index);
-                result = true;
-            }
+        try {
+            return items
+                    .remove(this.items.stream()
+                            .filter(x -> x.getId()
+                                    .equals(id)).reduce((acc, x) -> acc).get());
+        } catch (Exception m) {
+            return false;
         }
-        return result;
     }
 
     /**
@@ -88,7 +87,8 @@ public class Tracker {
 
     /**
      * Метод реализует поиск заявки по имени.
-     *как работает map stream java
+     * как работает map stream java
+     *
      * @param name
      * @return
      */
@@ -107,22 +107,9 @@ public class Tracker {
     public Item findById(String id) {
         return id == null
                 ? null
-                : items.stream().filter((item) -> item.getId().equals(id)).reduce((acc, x) -> x).orElse(null);
-    }
-
-    /**
-     * Метод возвращает индекс заявки в массиве.
-     *
-     * @param id
-     * @return
-     */
-    private int indexOf(String id) {
-        for (int index = 0; index < items.size(); index++) {
-            if (items.get(index).getId().equals(id)) {
-                return index;
-            }
-        }
-        return -1;
+                : items.stream()
+                    .filter((item) -> item.getId().equals(id)).reduce((acc, x) -> x)
+                        .orElse(null);
     }
 
     /**

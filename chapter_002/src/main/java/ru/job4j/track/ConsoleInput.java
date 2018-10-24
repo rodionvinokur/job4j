@@ -29,13 +29,6 @@ public class ConsoleInput implements Input {
     }
 
     public boolean inRange(int act, List<Integer> range) {
-        boolean result = false;
-        for (int i : range) {
-            if (act == i) {
-                result = true;
-                break;
-            }
-        }
-        return result;
+        return range.stream().anyMatch(x -> act == x);
     }
 }
