@@ -22,6 +22,10 @@ public class SimpleArray<T> implements Iterable<T> {
         count = array.length;
     }
 
+    public SimpleArray(int size) {
+        this.array = (T[]) new Object[size];
+    }
+
     public boolean add(T model) {
         if (array == null || count == array.length) {
             throw new ArrayIndexOutOfBoundsException();
@@ -46,10 +50,6 @@ public class SimpleArray<T> implements Iterable<T> {
             return true;
         }
         return false;
-    }
-
-    public T[] getArray() {
-        return array;
     }
 
     public T get(int index) {
