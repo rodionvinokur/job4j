@@ -28,17 +28,15 @@ public class MatrixIterator implements Iterator<Integer> {
 
     @Override
     public Integer next() {
-        int result = 0;
-        try {
-            result = arr[row][column];
-            if (column >= arr[row].length - 1) {
-                row++;
-                column = 0;
-            } else {
-                column++;
-            }
-        } catch (Exception exc) {
+        if (!hasNext()) {
             throw new NoSuchElementException();
+        }
+        int result = arr[row][column];
+        if (column >= arr[row].length - 1) {
+            row++;
+            column = 0;
+        } else {
+            column++;
         }
         return result;
     }
