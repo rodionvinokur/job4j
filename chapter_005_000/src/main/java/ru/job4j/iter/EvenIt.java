@@ -36,13 +36,12 @@ public class EvenIt implements Iterator<Integer> {
 
     @Override
     public Integer next() {
-        int result = -1;
-        try {
-            result = array[currentPosition];
-            findNext();
-        } catch (Exception m) {
-            throw new NoSuchElementException(m.getMessage());
+        if (!hasNext()) {
+            throw new NoSuchElementException();
         }
+        int result = -1;
+        result = array[currentPosition];
+        findNext();
         return result;
     }
 }
