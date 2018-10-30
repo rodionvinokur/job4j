@@ -31,13 +31,23 @@ public class IteratorIter<T> implements Iterator {
     }
 
     public Iterator<T> convert(Iterator<Iterator<T>> iterate) {
-        List<T> list = new ArrayList<>();
-        while (iterate.hasNext()) {
-            Iterator<T> tmp = iterate.next();
-            while (tmp.hasNext()) {
-                list.add(tmp.next());
+        return new Iterator<T>() {
+            Iterator<T> iteratorT = iterate.next();
+            @Override
+            public boolean hasNext() {
+                  return iterate.hasNext() || (!iterate.hasNext() && iteratorT.hasNext());
             }
-        }
-        return new IteratorInt(list);
+
+            @Override
+            public T next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                if (!iteratorT.hasNext()) {
+                    iteratorT = iterate.next();
+                }
+                return iteratorT.next();
+            }
+        };
     }
 }
