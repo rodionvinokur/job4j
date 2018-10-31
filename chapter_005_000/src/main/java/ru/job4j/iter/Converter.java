@@ -11,10 +11,17 @@ public class Converter<T> {
     public Iterator<T> convert(Iterator<Iterator<T>> iterate) {
 
         return new Iterator<T>() {
-            Iterator<T> iteratorT = iterate.next();
+            Iterator<T> iteratorT = iterate.next();;
+
+            private void findNext() {
+                while (!iteratorT.hasNext() && iterate.hasNext()) {
+                    iteratorT = iterate.next();
+                }
+            }
 
             @Override
             public boolean hasNext() {
+                findNext();
                 return iteratorT.hasNext();
             }
 
@@ -24,9 +31,6 @@ public class Converter<T> {
                     throw new NoSuchElementException();
                 }
                 T result = iteratorT.next();
-                while (!iteratorT.hasNext() && iterate.hasNext()) {
-                    iteratorT = iterate.next();
-                }
                 return result;
             }
         };
