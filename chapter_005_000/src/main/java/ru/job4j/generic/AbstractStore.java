@@ -12,19 +12,15 @@ import java.util.Iterator;
 public class AbstractStore<T extends Base> implements Store<T> {
     private SimpleArray<T> simpleArray;
 
-    public void setSimpleArray(SimpleArray<T> sat) {
-        this.simpleArray = sat;
+    public AbstractStore(SimpleArray<T> simpleArray) {
+        this.simpleArray = simpleArray;
     }
-
 
     private int indexOf(String id) {
         Iterator<T> iter = simpleArray.iterator();
         for (int i = 0; iter.hasNext(); i++) {
             T t = iter.next();
-            if (t == null) {
-                continue;
-            }
-            if (t.getId().equals(id)) {
+            if (t != null && t.getId().equals(id)) {
                 return i;
             }
         }

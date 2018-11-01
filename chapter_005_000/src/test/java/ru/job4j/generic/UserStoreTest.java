@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
  * @version 1.0
  * @since 1.0
  */
-public class UserStoreTest extends AbstractStore {
+public class UserStoreTest {
     private UserStore uStore;
 
     @Before
