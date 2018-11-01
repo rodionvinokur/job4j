@@ -25,7 +25,7 @@ public class IContainerTest {
     @Before
     public void setUp() {
         icArray = new Container<>(5);
-        icLink = new Container<>(5);
+        icLink = new LinkedContainer<>();
     }
 
     private void testBeforeLimitCapacity(IContainer<Integer> ic) {

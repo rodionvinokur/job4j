@@ -22,10 +22,10 @@ public class LinkedContainer<E> implements IContainer<E> {
         Node<E> next;
     }
 
-    public LinkedContainer(int delta) {
+    public LinkedContainer() {
         first = new Node<E>();
         last = first;
-        expandOn(delta > 0 ? delta : 10);
+        capacity++;
     }
 
     @Override
@@ -34,11 +34,12 @@ public class LinkedContainer<E> implements IContainer<E> {
             last.next = new Node<E>();
             last = last.next;
             last.date = value;
-            expandOn(capacity);
+            capacity++;
             modCount++;
         } else {
-            getNode(size++).date = value;
+            getNode(size).date = value;
         }
+        size++;
     }
 
     @Override
@@ -65,14 +66,14 @@ public class LinkedContainer<E> implements IContainer<E> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                return (E) getNode(position++);
+                return (E) getNode(position++).date;
             }
         };
     }
 
     private Node<E> getNode(int index) {
         Node<E> tmp = first;
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < index; i++) {
             tmp = tmp.next;
         }
         return tmp;
