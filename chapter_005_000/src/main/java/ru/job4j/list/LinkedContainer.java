@@ -23,20 +23,22 @@ public class LinkedContainer<E> implements IContainer<E> {
     }
 
     public LinkedContainer(int delta) {
-        expandContainer(delta);
-    }
-
-    public LinkedContainer() {
-        expandContainer(10);
+        first = new Node<E>();
+        last = first;
+        expandOn(delta > 0 ? delta : 10);
     }
 
     @Override
     public void add(E value) {
         if (size == capacity) {
-            expandContainer(0);
+            last.next = new Node<E>();
+            last = last.next;
+            last.date = value;
+            expandOn(capacity);
             modCount++;
+        } else {
+            getNode(size++).date = value;
         }
-        getNode(size++).date = value;
     }
 
     @Override
@@ -52,6 +54,9 @@ public class LinkedContainer<E> implements IContainer<E> {
 
             @Override
             public boolean hasNext() {
+                if (expectedModCount != modCount) {
+                    throw new ConcurrentModificationException("Container was changed");
+                }
                 return position < size;
             }
 
@@ -59,9 +64,6 @@ public class LinkedContainer<E> implements IContainer<E> {
             public E next() {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
-                }
-                if (expectedModCount != modCount) {
-                    throw new ConcurrentModificationException("Container was changed");
                 }
                 return (E) getNode(position++);
             }
@@ -76,18 +78,11 @@ public class LinkedContainer<E> implements IContainer<E> {
         return tmp;
     }
 
-    private void expandContainer(int delta) {
-        int incrementCapacity = delta == 0 ? capacity + 1 : delta;
-        if (incrementCapacity > 0 && first == null) {
-            first = new Node<E>();
-            last = first;
-            capacity++;
+    private void expandOn(int delta) {
+        for (int i = 0; i < delta - 1; i++) {
+            last.next = new Node<E>();
+            last = last.next;
         }
-        for (int i = 0; i < incrementCapacity - 1; i++) {
-            Node<E> additionalNode = new Node<E>();
-            last.next = additionalNode;
-            last = additionalNode;
-            capacity++;
-        }
+        capacity += delta;
     }
 }

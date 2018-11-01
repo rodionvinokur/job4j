@@ -42,6 +42,9 @@ public class Container<E> implements IContainer<E> {
 
             @Override
             public boolean hasNext() {
+                if (expectedModCount != modCount) {
+                    throw new ConcurrentModificationException("Container was changed");
+                }
                 return position < count;
             }
 
@@ -49,9 +52,6 @@ public class Container<E> implements IContainer<E> {
             public E next() {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
-                }
-                if (expectedModCount != modCount) {
-                    throw new ConcurrentModificationException("Container was changed");
                 }
                 return (E) container[position++];
             }
