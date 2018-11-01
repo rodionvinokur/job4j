@@ -10,14 +10,19 @@ import java.util.Iterator;
  * @since 1.0
  */
 public class AbstractStore<T extends Base> implements Store<T> {
-    protected SimpleArray<T> simpleArray;
+    private SimpleArray<T> simpleArray;
+
+    public void setSimpleArray(SimpleArray<T> sat) {
+        this.simpleArray = sat;
+    }
+
 
     private int indexOf(String id) {
         Iterator<T> iter = simpleArray.iterator();
         for (int i = 0; iter.hasNext(); i++) {
             T t = iter.next();
             if (t == null) {
-                break;
+                continue;
             }
             if (t.getId().equals(id)) {
                 return i;

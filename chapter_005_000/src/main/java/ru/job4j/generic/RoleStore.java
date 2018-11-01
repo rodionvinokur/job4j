@@ -9,6 +9,6 @@ package ru.job4j.generic;
  */
 public class RoleStore extends AbstractStore<Role> {
     public RoleStore(int size) {
-        super.simpleArray = new SimpleArray<>(10);
+        setSimpleArray(new SimpleArray<>(10));
     }
 }
