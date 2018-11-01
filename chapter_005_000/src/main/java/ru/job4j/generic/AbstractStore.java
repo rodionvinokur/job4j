@@ -12,8 +12,8 @@ import java.util.Iterator;
 public class AbstractStore<T extends Base> implements Store<T> {
     private SimpleArray<T> simpleArray;
 
-    public AbstractStore(SimpleArray<T> simpleArray) {
-        this.simpleArray = simpleArray;
+    public AbstractStore(int size) {
+        this.simpleArray = new SimpleArray<>(size);
     }
 
     private int indexOf(String id) {
