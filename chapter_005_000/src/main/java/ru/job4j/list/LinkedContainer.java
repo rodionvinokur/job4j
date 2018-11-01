@@ -12,34 +12,27 @@ import java.util.NoSuchElementException;
  */
 public class LinkedContainer<E> implements IContainer<E> {
     private int modCount;
-    private int size = 0;
-    private int capacity = 0;
     private Node<E> first = null;
     private Node<E> last = null;
 
     private class Node<E> {
         E date;
         Node<E> next;
-    }
-
-    public LinkedContainer() {
-        first = new Node<E>();
-        last = first;
-        capacity++;
+        public Node(E date) {
+            this.date = date;
+        }
     }
 
     @Override
     public void add(E value) {
-        if (size == capacity) {
-            last.next = new Node<E>();
-            last = last.next;
-            last.date = value;
-            capacity++;
-            modCount++;
+        if (first == null) {
+            first = new Node<E>(value);
+            last = first;
         } else {
-            getNode(size).date = value;
+            last.next = new Node<E>(value);
+            last = last.next;
         }
-        size++;
+        modCount++;
     }
 
     @Override
@@ -58,7 +51,7 @@ public class LinkedContainer<E> implements IContainer<E> {
                 if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException("Container was changed");
                 }
-                return position < size;
+                return position < modCount;
             }
 
             @Override
@@ -77,13 +70,5 @@ public class LinkedContainer<E> implements IContainer<E> {
             tmp = tmp.next;
         }
         return tmp;
-    }
-
-    private void expandOn(int delta) {
-        for (int i = 0; i < delta - 1; i++) {
-            last.next = new Node<E>();
-            last = last.next;
-        }
-        capacity += delta;
     }
 }
