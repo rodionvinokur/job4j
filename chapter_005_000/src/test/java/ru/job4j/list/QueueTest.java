@@ -38,5 +38,13 @@ public class QueueTest {
         assertThat(icQueue.poll(), is(3));
         assertTrue(icQueue.poll() == null);
     }
-
+    @Test
+    public void whenPushPushPollPushPollPollThen321() {
+        icQueue.push(1);
+        icQueue.push(2);
+        assertThat(icQueue.poll(), is(1));
+        icQueue.push(3);
+        assertThat(icQueue.poll(), is(2));
+        assertThat(icQueue.poll(), is(3));
+    }
 }
