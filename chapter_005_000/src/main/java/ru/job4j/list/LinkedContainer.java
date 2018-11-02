@@ -11,7 +11,8 @@ import java.util.NoSuchElementException;
  * @since 1.0
  */
 public class LinkedContainer<E> implements IContainer<E> {
-    private int modCount;
+    private int modCount = 0;
+    private int size = 0;
     private Node<E> first = null;
     private Node<E> last = null;
 
@@ -33,6 +34,7 @@ public class LinkedContainer<E> implements IContainer<E> {
             last = last.next;
         }
         modCount++;
+        size++;
     }
 
     @Override
@@ -51,7 +53,7 @@ public class LinkedContainer<E> implements IContainer<E> {
                 if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException("Container was changed");
                 }
-                return position < modCount;
+                return position < size;
             }
 
             @Override
