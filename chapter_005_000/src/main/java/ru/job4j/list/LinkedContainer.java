@@ -10,18 +10,40 @@ import java.util.NoSuchElementException;
  * @version 1.0
  * @since 1.0
  */
-public class LinkedContainer<E> implements IContainer<E> {
+public class LinkedContainer<E> implements IContainer<E>, IStack<E> {
     private int modCount = 0;
     private int size = 0;
     private Node<E> first = null;
     private Node<E> last = null;
-
     private class Node<E> {
         E date;
         Node<E> next;
         public Node(E date) {
             this.date = date;
         }
+    }
+
+    @Override
+    public void push(E value) {
+        if (first == null) {
+            first = new Node<E>(value);
+            last = first;
+        } else {
+            Node<E> tmpNode = first;
+            first = new Node<E>(value);
+            first.next = tmpNode;
+        }
+        modCount++;
+        size++;
+    }
+
+    @Override
+    public E poll() {
+        Node<E> result = first;
+        first = (first != null) ? first.next : null;
+        modCount++;
+        size = size != 0 ? --size : 0;
+        return result == null ? null : (E) result.date;
     }
 
     @Override
