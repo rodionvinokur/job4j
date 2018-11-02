@@ -15,9 +15,12 @@ public class LinkedContainer<E> implements IContainer<E>, IStack<E> {
     private int size = 0;
     private Node<E> first = null;
     private Node<E> last = null;
+
     private class Node<E> {
         E date;
         Node<E> next;
+        Node<E> prev;
+
         public Node(E date) {
             this.date = date;
         }
@@ -29,12 +32,22 @@ public class LinkedContainer<E> implements IContainer<E>, IStack<E> {
             first = new Node<E>(value);
             last = first;
         } else {
-            Node<E> tmpNode = first;
-            first = new Node<E>(value);
-            first.next = tmpNode;
+            Node<E> tmpNode = new Node<E>(value);
+            first.prev = tmpNode;
+            tmpNode.next = first;
+            first = tmpNode;
         }
         modCount++;
         size++;
+    }
+
+    public E pollLast() {
+        Node<E> result = last;
+        last = (last != null) ? last.prev : null;
+        modCount++;
+        size = size != 0 ? --size : 0;
+        return result == null ? null : (E) result.date;
+
     }
 
     @Override
