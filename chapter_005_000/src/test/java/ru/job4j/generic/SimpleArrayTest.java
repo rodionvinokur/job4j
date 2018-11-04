@@ -80,7 +80,7 @@ public class SimpleArrayTest {
         sampl.delete(1);
         Integer[] result = makeResultArray();
         Integer[] expect = {1, 4, 7, null, null, null, null, null, null, null};
-        //    assertArrayEquals(result, expect);
+        assertArrayEquals(result, expect);
     }
 
     @Test
