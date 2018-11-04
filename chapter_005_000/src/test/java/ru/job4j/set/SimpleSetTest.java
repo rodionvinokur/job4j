@@ -14,16 +14,6 @@ import static org.junit.Assert.*;
  */
 public class SimpleSetTest {
 
-    public <T> int countInSimpleSet(SimpleSet<T> t, T element) {
-        int count = 0;
-        for (T elementInT : t) {
-            if (elementInT.equals(element)) {
-                count++;
-            }
-        }
-        return count;
-    }
-
     public <T> int count(SimpleSet<T> t) {
         int count = 0;
         for (T elementInT : t) {
@@ -36,8 +26,7 @@ public class SimpleSetTest {
     public void whenAddSimpleObjectInEmptyArray() {
         SimpleSet<String> setString = new SimpleSet<>();
         setString.add("Stroka");
-        int result = countInSimpleSet(setString, "Stroka");
-        assertThat(result, is(1));
+        assertTrue(setString.contain("Stroka"));
     }
 
     @Test
@@ -47,12 +36,11 @@ public class SimpleSetTest {
         setString.add("two");
         setString.add("one");
         setString.add("three");
-        int result = countInSimpleSet(setString, "one");
-        assertThat(result, is(1));
-        result = countInSimpleSet(setString, "two");
-        assertThat(result, is(1));
-        result = countInSimpleSet(setString, "three");
-        assertThat(result, is(1));
+        assertTrue(setString.contain("one"));
+        assertTrue(setString.contain("two"));
+        assertTrue(setString.contain("three"));
+        int result = count(setString);
+        assertThat(result, is(3));
     }
 
     @Test

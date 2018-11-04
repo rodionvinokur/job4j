@@ -17,16 +17,20 @@ public class SimpleSet<T> implements Iterable<T> {
         if (t == null) {
             return;
         }
-        boolean elementNotFound = true;
+        if (!contain(t)) {
+            array.add(t);
+        }
+    }
+
+    public boolean contain(T t) {
+        boolean hasElement = false;
         for (T element : array) {
             if (element.equals(t)) {
-                elementNotFound = false;
+                hasElement = true;
                 break;
             }
         }
-        if (elementNotFound) {
-            array.add(t);
-        }
+        return hasElement;
     }
 
     @Override
