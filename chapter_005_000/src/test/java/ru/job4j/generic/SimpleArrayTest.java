@@ -72,18 +72,6 @@ public class SimpleArrayTest {
         assertThat(it.next(), is(4));
         assertThat(it.hasNext(), is(true));
         assertThat(it.next(), is(7));
-        assertThat(it.hasNext(), is(true));
-        assertTrue(it.next() == null);
-        assertThat(it.hasNext(), is(true));
-        assertTrue(it.next() == null);
-        assertThat(it.hasNext(), is(true));
-        assertTrue(it.next() == null);
-        assertThat(it.hasNext(), is(true));
-        assertTrue(it.next() == null);
-        assertThat(it.hasNext(), is(true));
-        assertTrue(it.next() == null);
-        assertThat(it.hasNext(), is(true));
-        assertTrue(it.next() == null);
         assertThat(it.hasNext(), is(false));
     }
 
