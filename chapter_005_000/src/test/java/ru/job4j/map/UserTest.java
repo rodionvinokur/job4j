@@ -19,12 +19,12 @@ public class UserTest {
     @Test
     public void testPrintMapUsers() {
         Map<User, Object> mapUsrO = new HashMap<>();
-        User usr1 = new User("Petro", 1, new GregorianCalendar(2011, 1 , 25));
-        User usr2 = new User("Petro", 1, new GregorianCalendar(2011, 1 , 25));
+        User usr1 = new User("Petro", 1, new GregorianCalendar(2011, 1, 25));
+        User usr2 = new User("Petro", 1, new GregorianCalendar(2011, 1, 25));
         String one = "one";
         String two = "two";
         mapUsrO.put(usr1, one);
-        mapUsrO.put(usr1, two);
+        mapUsrO.put(usr2, two);
         System.out.println(mapUsrO);
     }
 }
