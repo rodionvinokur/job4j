@@ -69,7 +69,7 @@ public class SimpleArray<T> implements Iterable<T> {
                 if (array == null) {
                     throw new NullPointerException();
                 }
-                return position < array.length;
+                return position < count;
             }
 
             @Override
