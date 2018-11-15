@@ -3,10 +3,7 @@ package ru.job4j.map;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -27,8 +24,16 @@ public class MyMapTest {
             map.insert(i, "Element #" + i);
         }
         int count = 0;
-        for (Integer key : map) {
-            count++;
+        Iterator<Integer> iter = map.iterator();
+        while (true) {
+            try {
+                if (iter.hasNext()) {
+                    count++;
+                    iter.next();
+                }
+            } catch (NoSuchElementException m) {
+                break;
+            }
         }
         assertEquals(32, count);
         assertEquals("Element #21", map.get(21));
@@ -42,8 +47,16 @@ public class MyMapTest {
         map.insert(1, "Element #2");
         assertEquals("Element #2", map.get(1));
         int count = 0;
-        for (Integer key : map) {
-            count++;
+        Iterator<Integer> iter = map.iterator();
+        while (true) {
+            try {
+                if (iter.hasNext()) {
+                    count++;
+                    iter.next();
+                }
+            } catch (NoSuchElementException m) {
+                break;
+            }
         }
         assertEquals(1, count);
     }
@@ -53,13 +66,21 @@ public class MyMapTest {
         map.insert(1, "Element #1");
         assertFalse(map.insert(null, "Element #2"));
         int count = 0;
-        for (Integer key : map) {
-            count++;
+        Iterator<Integer> iter = map.iterator();
+        while (true) {
+            try {
+                if (iter.hasNext()) {
+                    count++;
+                    iter.next();
+                }
+            } catch (NoSuchElementException m) {
+                break;
+            }
         }
         assertEquals(1, count);
     }
 
-    @Test
+    @Test(expected = NoSuchElementException.class)
     public void whenEmptyMapThenCount0() {
         int count = 0;
         for (Integer key : map) {

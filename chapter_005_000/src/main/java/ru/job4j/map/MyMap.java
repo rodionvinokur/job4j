@@ -1,25 +1,26 @@
 package ru.job4j.map;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 /**
  * Created by slevi on 04.11.2018.
  */
 public class MyMap<K, V> implements IMap<K, V>, Iterable<K> {
-    private int bucket = 16;
     private final double loadFactor = 0.75;
-    private int capacity = (int) (bucket / loadFactor);
+    private int capacity = (int) (16 / loadFactor);
     private Entry<K, V>[] table;
     private int size = 0;
+    private int crc = 0;
 
     public MyMap() {
-        table = new Entry[bucket];
+        table = new Entry[16];
     }
 
     public MyMap(int bucket) {
-        this.bucket = bucket;
-        table = new Entry[bucket];
+         table = new Entry[bucket];
     }
 
     @Override
@@ -27,7 +28,7 @@ public class MyMap<K, V> implements IMap<K, V>, Iterable<K> {
         if (key == null) {
             return false;
         }
-        int index = key.hashCode() % bucket;
+        int index = key.hashCode() % table.length;
         if (table[index] == null || table[index].hash == key.hashCode() && table[index].key.equals(key)) {
             table[index] = new Entry(key, value, table[index] != null ? table[index].next : null);
         } else {
@@ -44,8 +45,9 @@ public class MyMap<K, V> implements IMap<K, V>, Iterable<K> {
         size++;
         if ((double) size > loadFactor * capacity) {
             expand();
-            capacity = (int) ((double) bucket / loadFactor);
+            capacity = (int) ((double) table.length / loadFactor);
         }
+        crc++;
         return true;
     }
 
@@ -54,7 +56,7 @@ public class MyMap<K, V> implements IMap<K, V>, Iterable<K> {
         if (key == null) {
             return null;
         }
-        int index = key.hashCode() % bucket;
+        int index = key.hashCode() % table.length;
         if (table[index] == null) {
             return null;
         }
@@ -74,7 +76,7 @@ public class MyMap<K, V> implements IMap<K, V>, Iterable<K> {
         if (key == null) {
             return false;
         }
-        int index = key.hashCode() % bucket;
+        int index = key.hashCode() % table.length;
         if (table[index] == null) {
             return false;
         }
@@ -95,18 +97,22 @@ public class MyMap<K, V> implements IMap<K, V>, Iterable<K> {
                 entry = entry.next;
             }
         }
-
+        crc = result ? crc++ : crc;
         return result;
     }
 
     @Override
     public Iterator<K> iterator() {
         return new Iterator<K>() {
+            int crcIterator = crc;
             int pos = 0;
             Iterator<Entry<K, V>> iter = table[0] == null ? null : table[0].iterator();
 
             @Override
             public boolean hasNext() {
+                if (crc != crcIterator) {
+                    throw new ConcurrentModificationException();
+                }
                 for (int i = pos; i < table.length; i++) {
                     if (table[i] != null) {
                         if (pos != i) {
@@ -118,7 +124,7 @@ public class MyMap<K, V> implements IMap<K, V>, Iterable<K> {
                         }
                     }
                 }
-                return false;
+                throw new NoSuchElementException();
             }
 
             @Override
@@ -175,8 +181,7 @@ public class MyMap<K, V> implements IMap<K, V>, Iterable<K> {
     }
 
     private void expand() {
-        bucket = bucket * 2;
-        Entry<K, V>[] tmp = new Entry[bucket];
+        Entry<K, V>[] tmp = new Entry[table.length * 2];
         this.copyTo(tmp);
         table = tmp;
     }
@@ -192,7 +197,7 @@ public class MyMap<K, V> implements IMap<K, V>, Iterable<K> {
     }
 
     private void addTo(Entry<K, V>[] entry, K key, V date) {
-        int index = key.hashCode() % bucket;
+        int index = key.hashCode() % table.length;
         if (entry[index] == null) {
             entry[index] = new Entry(key, date);
         } else {
