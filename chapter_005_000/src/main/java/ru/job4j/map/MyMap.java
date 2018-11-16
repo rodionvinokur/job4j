@@ -110,9 +110,6 @@ public class MyMap<K, V> implements IMap<K, V>, Iterable<K> {
 
             @Override
             public boolean hasNext() {
-                if (crc != crcIterator) {
-                    throw new ConcurrentModificationException();
-                }
                 for (int i = pos; i < table.length; i++) {
                     if (table[i] != null) {
                         if (pos != i) {
@@ -131,6 +128,9 @@ public class MyMap<K, V> implements IMap<K, V>, Iterable<K> {
             public K next() {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
+                }
+                if (crc != crcIterator) {
+                    throw new ConcurrentModificationException();
                 }
                     return iter.next().key;
             }
