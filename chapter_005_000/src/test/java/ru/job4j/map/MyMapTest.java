@@ -25,15 +25,8 @@ public class MyMapTest {
         }
         int count = 0;
         Iterator<Integer> iter = map.iterator();
-        while (true) {
-            try {
-                if (iter.hasNext()) {
-                    count++;
-                    iter.next();
-                }
-            } catch (NoSuchElementException m) {
-                break;
-            }
+        for (Integer key : map) {
+            count++;
         }
         assertEquals(32, count);
         assertEquals("Element #21", map.get(21));
@@ -48,15 +41,9 @@ public class MyMapTest {
         assertEquals("Element #2", map.get(1));
         int count = 0;
         Iterator<Integer> iter = map.iterator();
-        while (true) {
-            try {
-                if (iter.hasNext()) {
-                    count++;
-                    iter.next();
-                }
-            } catch (NoSuchElementException m) {
-                break;
-            }
+
+        for (Integer key : map) {
+            count++;
         }
         assertEquals(1, count);
     }
@@ -67,20 +54,13 @@ public class MyMapTest {
         assertFalse(map.insert(null, "Element #2"));
         int count = 0;
         Iterator<Integer> iter = map.iterator();
-        while (true) {
-            try {
-                if (iter.hasNext()) {
-                    count++;
-                    iter.next();
-                }
-            } catch (NoSuchElementException m) {
-                break;
-            }
+        for (Integer key : map) {
+            count++;
         }
         assertEquals(1, count);
     }
 
-    @Test(expected = NoSuchElementException.class)
+    @Test
     public void whenEmptyMapThenCount0() {
         int count = 0;
         for (Integer key : map) {

@@ -124,12 +124,15 @@ public class MyMap<K, V> implements IMap<K, V>, Iterable<K> {
                         }
                     }
                 }
-                throw new NoSuchElementException();
+                return false;
             }
 
             @Override
             public K next() {
-                    return hasNext() ? iter.next().key : null;
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                    return iter.next().key;
             }
         };
     }
