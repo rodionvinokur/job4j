@@ -33,4 +33,8 @@ public class Node<E extends Comparable<E>> {
     public E getValue() {
         return this.value;
     }
+
+    public boolean isBinaryNode() {
+        return children.size() < 3;
+    }
 }
