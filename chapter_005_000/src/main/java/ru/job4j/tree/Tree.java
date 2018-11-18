@@ -28,7 +28,7 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         if (parentNodeOptional.isPresent()) {
             Node<E> parentNode = parentNodeOptional.get();
             List<Node<E>> listNode = parentNode.leaves();
-            if (!listNode.contains(new Node<E>(child))) {
+            if (!this.contains(child)) {
                 listNode.add(new Node<E>(child));
                 state++;
                 result = true;
@@ -58,17 +58,16 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
 
     @Override
     public Iterator<E> iterator() {
-        List<E> list = new LinkedList<>();
-        list.add(root.getValue());
-        addToList(root, list);
-        Iterator<E> iter = list.iterator();
+        int mod = state;
+        Optional<Node<E>> result = Optional.empty();
+        Queue<Node<E>> queue = new LinkedList<>();
+        queue.offer(root);
 
         return new Iterator<E>() {
-            int mod = state;
 
             @Override
             public boolean hasNext() {
-                return iter.hasNext();
+                return !queue.isEmpty();
             }
 
             @Override
@@ -79,19 +78,13 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                return iter.next();
+                Node<E> currentNode = queue.poll();
+                for (Node<E> child : currentNode.leaves()) {
+                    queue.offer(child);
+                }
+                return currentNode.getValue();
             }
         };
-    }
-
-    private void addToList(Node<E> node, List<E> list) {
-        if (node != null) {
-            List<Node<E>> tmp = node.leaves();
-            list.addAll(tmp.stream().map(Node::getValue).collect(Collectors.toList()));
-            for (Node<E> elem : tmp) {
-                addToList(elem, list);
-            }
-        }
     }
 
     public boolean isBinary() {
@@ -101,5 +94,14 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
             }
         }
         return true;
+    }
+
+    private boolean contains(E item) {
+        for (E element : this) {
+            if (element.equals(item)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
