@@ -43,6 +43,7 @@ public class RectangleMove implements Runnable {
             try {
                 Thread.sleep(150);
             } catch (InterruptedException e) {
+               Thread.currentThread().interrupt();
                break;
             }
         }
