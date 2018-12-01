@@ -33,17 +33,17 @@ public class RectangleMove implements Runnable {
             }
             return y;
         };
-        while (true) {
+        while (!Thread.currentThread().isInterrupted()) {
             double posX = this.rect.getX();
-            stepX = func.apply(posX, stepX);
             double posY = this.rect.getY();
+            stepX = func.apply(posX, stepX);
             stepY = func.apply(posY, stepY);
             this.rect.setX(posX + stepX);
             this.rect.setY(posY + stepY);
             try {
                 Thread.sleep(150);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+               break;
             }
         }
     }
