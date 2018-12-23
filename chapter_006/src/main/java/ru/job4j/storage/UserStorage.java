@@ -1,15 +1,21 @@
 package ru.job4j.storage;
 
+import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
 import java.util.*;
 
 /**
- * Created by slevi on 22.12.2018.
+ * UserStorage
+ *
+ * @author Rodion V.
+ * @version 1.0
+ * @since 1.0
  */
 @ThreadSafe
 public class UserStorage {
-    private final List<User> users = Collections.synchronizedList(new ArrayList<User>());
+    @GuardedBy("this")
+    private final List<User> users = new ArrayList<>();
 
     public synchronized boolean add(User user) {
         if (user != null && !users.contains(user)) {
