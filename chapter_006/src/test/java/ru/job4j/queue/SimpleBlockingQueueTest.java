@@ -51,8 +51,8 @@ public class SimpleBlockingQueueTest {
         Integer[] expected = new Integer[number];
         Thread[] array = new Thread[number];
         for (int i = 0; i < number; i++) {
-            new Thread(new ThreadIn(i)).start();
-            array[i] = new Thread(new ThreadOut(), "MyPotok" + i);
+            new Thread(new ThreadIn(i), "MyPotokIN" + i).start();
+            array[i] = new Thread(new ThreadOut(), "MyPotokOUT" + i);
             array[i].start();
             try {
                 array[i].join();

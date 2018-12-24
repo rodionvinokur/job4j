@@ -10,4 +10,5 @@ package ru.job4j.container;
 public interface IMContainer<E> extends Iterable<E> {
     void add(E value);
     E get(int index);
+
 }
