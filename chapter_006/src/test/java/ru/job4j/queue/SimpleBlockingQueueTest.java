@@ -18,7 +18,11 @@ public class SimpleBlockingQueueTest {
     private class ThreadOut implements Runnable {
         @Override
         public void run() {
-            tree.add(queue.poll());
+            try {
+                tree.add(queue.poll());
+            } catch (InterruptedException e) {
+
+            }
         }
     }
 
@@ -43,7 +47,7 @@ public class SimpleBlockingQueueTest {
 
     @Test
     public void offer() {
-        int number = 1000;
+        int number = 10000;
         Integer[] expected = new Integer[number];
         Thread[] array = new Thread[number];
         for (int i = 0; i < number; i++) {

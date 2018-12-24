@@ -20,14 +20,10 @@ public class SimpleBlockingQueue<T> {
         notifyAll();
     }
 
-    public synchronized T poll() {
+    public synchronized T poll() throws InterruptedException {
         T t = (T) queue.poll();
         while (t == null && !Thread.currentThread().isInterrupted()) {
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+            wait();
             t = (T) queue.poll();
         }
 
