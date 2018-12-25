@@ -3,8 +3,8 @@ package ru.job4j.queue;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.TreeSet;
-import java.util.concurrent.Callable;
+import java.util.*;
+import java.util.stream.IntStream;
 
 import static org.junit.Assert.assertArrayEquals;
 
@@ -62,5 +62,31 @@ public class SimpleBlockingQueueTest {
             expected[i] = i;
         }
         assertArrayEquals(expected, tree.toArray());
+    }
+
+    @Test
+    public void whenFetchAllThenGetIt() throws InterruptedException {
+        final List<Integer> buffer = Collections.synchronizedList(new ArrayList<>());
+        final SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>();
+        Runnable rp = () -> IntStream.range(0, 5).forEach(queue::offer);
+        Runnable cp = () -> {
+            while (!queue.isEmpty() || !Thread.currentThread().isInterrupted()) {
+                try {
+                    buffer.add(queue.poll());
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        };
+        Thread producer = new Thread(rp);
+        producer.start();
+        Thread consumer = new Thread(cp);
+        consumer.start();
+        producer.join();
+        consumer.interrupt();
+        consumer.join();
+        Integer[] test = buffer.toArray(new Integer[0]);
+        Arrays.sort(test);
+        assertArrayEquals(new Integer[]{0, 1, 2, 3, 4}, test);
     }
 }
