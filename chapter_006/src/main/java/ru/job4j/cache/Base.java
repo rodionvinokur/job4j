@@ -16,11 +16,15 @@ public final class Base implements Cloneable {
 
     @Override
     public String toString() {
-        return "Base{" +
-                "id=" + id +
-                ", version=" + version +
-                ", name='" + name + '\'' +
-                '}';
+        return "Base{"
+                + "id="
+                + id
+                + ", version="
+                + version
+                + ", name='"
+                + name
+                + '\''
+                + '}';
     }
 
     public int getId() {
@@ -37,12 +41,18 @@ public final class Base implements Cloneable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Base base = (Base) o;
 
-        if (getId() != base.getId()) return false;
+        if (getId() != base.getId()) {
+            return false;
+        }
         return getVersion() == base.getVersion();
     }
 
@@ -55,9 +65,8 @@ public final class Base implements Cloneable {
 
     @Override
     public Base clone() {
-        Base tmp;
         try {
-            return tmp = (Base) super.clone();
+            return (Base) super.clone();
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }

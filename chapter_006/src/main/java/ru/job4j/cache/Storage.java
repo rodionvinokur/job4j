@@ -14,9 +14,10 @@ public class Storage {
 
     @Override
     public String toString() {
-        return "Storage{" +
-                "chm=" + chm +
-                '}';
+        return "Storage{"
+                + "chm="
+                + chm
+                + '}';
     }
 
     public void update(Base model) {
@@ -31,11 +32,7 @@ public class Storage {
             result = chm.replace(key, current, baseNew);
             if (result) {
                 System.out.println(oldVersion + " -> " + newVersion);
-            }
-            /**
-             * Без этого блока else должен работать алгоритм lockfree замены значения в мапе
-             */
-            else {
+            } else {
                 throw new OptimisticException("Throw Exception in Thread");
             }
         } while (!result);
