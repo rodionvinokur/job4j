@@ -1,5 +1,6 @@
 package ru.job4j.bomb;
 
+import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
 
@@ -12,7 +13,7 @@ import java.util.stream.IntStream;
  */
 public class Logic {
     public static void main(String[] args) {
-        int monsterNumber = 5;
+        int monsterNumber = 2;
         int heightBoard = 5;
         int widthBoard = 5;
         int barrierNumber = 2;
@@ -40,11 +41,19 @@ public class Logic {
                     } while (!stop);
                 }
         );
-        for (Hero hero : board.getHeroList()) {
-            Thread thread = new Thread(new BombThread(hero.getId(), board), hero.getId() == 0 ? "Bomberman: " : "Monster: "
+
+        List<Hero> lh = board.getHeroList();
+        Thread[] threads = new Thread[lh.size()];
+        for (int i = 0; i < lh.size(); i++) {
+            Hero hero = lh.get(i);
+            threads[i] = new Thread(new BombThread(hero.getId(), board), hero.getId() == 0 ? "Bomberman: " : "Monster: "
                     + hero.getId());
-            thread.setDaemon(false);
-            thread.start();
+            threads[i].start();
+        }
+        try {
+            threads[0].join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }

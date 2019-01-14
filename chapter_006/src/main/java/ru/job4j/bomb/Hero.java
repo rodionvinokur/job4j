@@ -48,4 +48,14 @@ public abstract class Hero {
     protected boolean move(Board.Cell dest) {
         return board.move(this.cell, dest);
     }
+
+    private volatile boolean isDead = false;
+
+    public boolean isDead() {
+        return isDead;
+    }
+
+    public void setDead() {
+        isDead = true;
+    }
 }

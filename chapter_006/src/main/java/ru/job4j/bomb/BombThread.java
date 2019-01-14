@@ -13,7 +13,7 @@ import java.util.Random;
 public class BombThread implements Runnable {
     private final int id;
     private final Board board;
-    private final static int STEP_COUNT = 20;
+    private final static int STEP_COUNT = 100;
     private final static int TRY_COUNT = 100;
     private volatile List<Hero> heroList;
 
@@ -24,7 +24,10 @@ public class BombThread implements Runnable {
 
     @Override
     public void run() {
-        for (int i = 0; i < STEP_COUNT && !Thread.currentThread().isInterrupted(); i++) {
+        heroList = board.getHeroList();
+        for (int i = 0; i < STEP_COUNT
+                && !Thread.currentThread().isInterrupted()
+                && !heroList.get(0).isDead(); i++) {
 
             try {
                 heroList = board.getHeroList();
@@ -53,6 +56,10 @@ public class BombThread implements Runnable {
                             + dest + " try_count = " + count);
                     Thread.sleep(1000);
                 } else {
+                    if (hero.isDead() || hero.getCell().getCellLock().isLocked()) {
+                        hero.setDead();
+                        break;
+                    }
                     System.out.println("Bomberman next step");
                     Thread.sleep(1000);
                 }

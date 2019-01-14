@@ -92,7 +92,12 @@ public class Board {
         Hero hero = heroes.get(source);
         Lock lock = getCellLock(dest);
         try {
-            if ((lock.tryLock(500L, TimeUnit.MILLISECONDS)) && heroes.get(dest) == null) {
+            if ((lock.tryLock(500L, TimeUnit.MILLISECONDS))
+                    && (heroes.get(dest) == null || heroes.get(dest).getClass() != Monster.class)) {
+                if (heroes.get(dest) != null && heroes.get(dest).getClass() == Bomberman.class) {
+                    heroes.get(dest).setDead();
+                    System.out.println("Bomberman was killed by Monster #: " + hero.getId() + "... at " + dest);
+                }
                 Class[] params = {Cell.class, Integer.class, Board.class};
                 Hero heroNew = heroes.get(source).getClass().getConstructor(params).newInstance(dest, hero.getId(), this);
                 if (heroes.putIfAbsent(dest, heroNew) == null) {
@@ -212,6 +217,10 @@ public class Board {
                 return false;
             }
             return getY() == cell.getY();
+        }
+
+        public ReentrantLock getCellLock() {
+            return locks[this.y][this.x];
         }
 
         @Override
