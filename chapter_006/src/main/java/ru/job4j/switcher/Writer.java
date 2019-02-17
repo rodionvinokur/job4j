@@ -50,8 +50,12 @@ public class Writer {
                 sb.append(number);
             }
             rep.setObj(sb.toString());
+            CountDownLatch oldCdl = cdl;
             cdl = new CountDownLatch(1);
-            w.getCdl().countDown();
+            if (oldCdl != cdl) {
+                w.getCdl().countDown();
+            }
+
             j++;
         }
     }
