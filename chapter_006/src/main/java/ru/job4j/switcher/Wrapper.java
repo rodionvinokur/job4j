@@ -40,7 +40,9 @@ public class Wrapper {
      */
     public void setObj(String obj) {
         try {
-            while (!rwlock.writeLock().tryLock(5, TimeUnit.MILLISECONDS));
+            while (!rwlock.writeLock().tryLock(5, TimeUnit.MILLISECONDS)) {
+                /*NOP*/
+            }
             try {
                 this.obj = obj;
             } finally {
