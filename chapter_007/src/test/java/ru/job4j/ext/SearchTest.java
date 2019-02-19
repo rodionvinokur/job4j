@@ -59,8 +59,8 @@ public class SearchTest {
     }
 
     @Test
-    public void filesWhenFilterEmptyThen() throws Exception {
-        String[] strings = {};
+    public void filesWhenFilterEmptyThen() throws Exception, InterruptedException {
+                String[] strings = {};
         for (File f : Search.files(System.getProperty("java.io.tmpdir") + File.separator + "My",
                 (Arrays.asList("")))) {
             System.out.println(f.getCanonicalFile());
