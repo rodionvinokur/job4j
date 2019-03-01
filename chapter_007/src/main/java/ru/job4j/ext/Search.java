@@ -74,10 +74,9 @@ public class Search {
         for (int i = 0; i < countProcessors - 1; i++) {
             ftrs[i] = executor.submit(filesSearch);
         }
-        while(!Arrays.stream(ftrs).allMatch(Future::isDone)) {
+        while (!Arrays.stream(ftrs).allMatch(Future::isDone)) {
             Thread.sleep(1);
         }
         return search.fileList;
     }
-
 }

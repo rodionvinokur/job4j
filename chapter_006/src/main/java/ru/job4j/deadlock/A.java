@@ -35,7 +35,7 @@ public class A {
             cdl.await();
             bLock.lock();
             try {
-
+                System.nanoTime();
             } finally {
                 bLock.unlock();
             }
