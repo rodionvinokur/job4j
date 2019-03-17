@@ -1,4 +1,4 @@
-package ru.job4j.chat;
+package ru.job4j.chat.util;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -33,7 +33,7 @@ public class IO {
         }
     }
 
-    static void write(String line) throws IOException {
+    public static void write(String line) throws IOException {
         try {
             BufferedWriter bw = new BufferedWriter(
                     new OutputStreamWriter(System.out, StandardCharsets.UTF_8));

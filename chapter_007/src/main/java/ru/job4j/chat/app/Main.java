@@ -1,4 +1,4 @@
-package ru.job4j.chat;
+package ru.job4j.chat.app;
 
 import java.io.IOException;
 

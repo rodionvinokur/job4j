@@ -1,4 +1,4 @@
-package ru.job4j.chat;
+package ru.job4j.chat.dict;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  * @version 1.0
  * @since 1.0
  */
-public class Dictionary {
+public class Dictionary implements IDict {
     private final Path pathToDictionary;
     private final int size;
     private final List<String> list;
@@ -42,6 +42,7 @@ public class Dictionary {
         this.initIndexArrayList();
     }
 
+    @Override
     public String readRandomLine() {
         Random random = new Random(System.currentTimeMillis());
         if (counter == 1) {

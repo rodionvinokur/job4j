@@ -1,9 +1,10 @@
-package ru.job4j.chat;
+package ru.job4j.chat.log;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
 /**
  * Class Journal
  *
@@ -11,7 +12,7 @@ import java.nio.file.Path;
  * @version 1.0
  * @since 1.0
  */
-public class Journal {
+public class Journal implements ILog {
     private final Path pathToJournal;
 
     public Journal(Path pathToJournal) throws IOException {
@@ -25,6 +26,7 @@ public class Journal {
         }
     }
 
+    @Override
     public void writeLine(String line) throws IOException {
         try (BufferedWriter bw = Files.newBufferedWriter(pathToJournal,
                 StandardCharsets.UTF_8)) {
