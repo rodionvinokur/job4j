@@ -1,10 +1,15 @@
 package ru.job4j.switcher;
 
-import static org.junit.Assert.assertArrayEquals;
+import static javax.management.Query.in;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.concurrent.*;
+import java.util.regex.Matcher;
 
 /**
  * WriterTest
@@ -15,25 +20,25 @@ import org.junit.Test;
  */
 public class WriterTest {
     Wrapper wrp = new Wrapper();
-    Writer w1;
-    Writer w2;
+    Writer w;
+    Semaphore sem;
+    CyclicBarrier cyc;
 
     @Before
     public void setUp() {
-        w1 = new Writer(1, 0, wrp);
-        w2 = new Writer(2, 1, wrp);
+        sem = new Semaphore(1);
+        cyc = new CyclicBarrier(2);
+        w = new Writer(wrp);
     }
 
     @Test
-    public void testWhenWrappWhen3Times() throws InterruptedException {
-        Runnable r1 = () -> w1.writeNumberToWrapper(w2);
-        Runnable r2 = () -> w2.writeNumberToWrapper(w1);
-        Thread t1 = new Thread(r1, "Mars");
-        Thread t2 = new Thread(r2, "Venera");
-        t1.start();
-        t2.start();
-        t1.join();
-        t2.join();
-        assertEquals("111111111122222222221111111111222222222211111111112222222222", wrp.getObj());
+    public void testWhenWrappWhen3Times() throws InterruptedException, ExecutionException {
+        ExecutorService ex = Executors.newFixedThreadPool(2);
+            Future<?> f1 = ex.submit(() -> w.run(1));
+            Future<?> f2 = ex.submit(() -> w.run(2));
+            f1.get();
+            f2.get();
+        System.out.println(wrp.getString());
+        assertEquals("111111111122222222221111111111222222222211111111112222222222", wrp.getString());
     }
 }

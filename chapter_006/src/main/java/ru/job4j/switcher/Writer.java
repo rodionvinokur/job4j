@@ -1,62 +1,41 @@
 package ru.job4j.switcher;
 
-import java.util.concurrent.CountDownLatch;
+
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Writer
  *
  * @author Rodion V.
- * @version 1.0
+ * @version 2.0
  * @since 1.0
  */
 public class Writer {
-    public final static int NUMBERS_TEST_RUN = 3;
-    private final int number;
-    private int count;
-    private Wrapper rep;
-    private volatile CountDownLatch cdl;
-
+    public static final Integer TEST_COUNT = 3;
+    private volatile int prevNumber = 2;
+    private final Wrapper rep;
     /**
-     * @param number число для записи в строку Враппера (1 или 2)
-     * @param count  - Integer: 0..1. Барьер - 0: убран, 1: поставлен
      * @param rep
      */
-    public Writer(int number, int count, Wrapper rep) {
-        this.number = number;
-        cdl = new CountDownLatch(count);
-        this.count = count;
+    public Writer(Wrapper rep) {
         this.rep = rep;
     }
 
-    public CountDownLatch getCdl() {
-        return cdl;
-    }
-
-    public void setCdl(CountDownLatch cdl) {
-        this.cdl = cdl;
-    }
-
-    public void writeNumberToWrapper(Writer w) {
-        int j = 0;
-        while (j < NUMBERS_TEST_RUN) {
-            try {
-                cdl.await();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+    public void run(int number) {
+        for (int i = 0; i < Writer.TEST_COUNT; i++) {
+            while (number == prevNumber) {
+                try {
+                    Thread.sleep(0);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-            StringBuilder sb = new StringBuilder(rep.getObj());
-            String str = "";
-            for (int i = 0; i < 10; i++) {
-                sb.append(number);
-            }
-            rep.setObj(sb.toString());
-            CountDownLatch oldCdl = cdl;
-            cdl = new CountDownLatch(1);
-            if (oldCdl != cdl) {
-                w.getCdl().countDown();
-            }
-
-            j++;
+               rep.addObj(IntStream.generate(() -> number)
+                        .limit(10)
+                        .mapToObj(String::valueOf)
+                        .collect(Collectors.joining()), number == prevNumber);
+                prevNumber = number;
         }
     }
 }

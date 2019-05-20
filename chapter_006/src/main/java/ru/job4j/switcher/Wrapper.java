@@ -1,57 +1,28 @@
 package ru.job4j.switcher;
 
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Wrapper
  * Класс обертка для строки.
  *
  * @author Rodion V.
- * @version 1.0
+ * @version 2.0
  * @since 1.0
  */
 public class Wrapper {
-    private volatile String obj = "";
+    private AtomicReference<String> obj = new AtomicReference<>("");
 
-    private ReadWriteLock rwlock = new ReentrantReadWriteLock();
-
-    /**
-     * getObj()
-     * Метод с блокировкой на чтение.
-     *
-     * @return
-     */
-    public String getObj() {
-        rwlock.readLock().lock();
-        try {
-            return obj;
-        } finally {
-            rwlock.readLock().unlock();
-        }
+    public String getString() {
+        return obj.get();
     }
 
-    /**
-     * setObj(String )
-     * Метод с блокировкой на запись.
-     *
-     * @param obj
-     */
-    public void setObj(String obj) {
-        try {
-            while (!rwlock.writeLock().tryLock(5, TimeUnit.MILLISECONDS)) {
-                System.nanoTime();
-            }
-            try {
-                this.obj = obj;
-            } finally {
-                rwlock.writeLock().unlock();
-            }
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        this.obj = obj;
+    public void addObj(String s, boolean test) {
+        String stringOld;
+        String stringNew;
+        do {
+            stringOld = obj.get();
+            stringNew = stringOld + s;
+        } while (!obj.compareAndSet(stringOld, stringNew));
     }
 }
